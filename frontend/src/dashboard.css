@@ -70,6 +70,39 @@
   border: 2px solid var(--peach); background: transparent; color: #fff;
 }
 .loc-btn:hover { background: var(--peach); color: var(--plum); }
+.welfare-search { max-width: 820px; margin: 0 auto 20px; }
+.welfare-search label { display: block; font-weight: 800; margin: 0 0 8px; }
+.welfare-search-controls { display: flex; justify-content: center; gap: 10px; }
+.welfare-search input {
+  min-width: 0; width: min(100%, 430px); padding: 10px 16px; border: 2px solid var(--peach);
+  border-radius: 999px; color: var(--plum); font: inherit; background: #fff;
+}
+.welfare-search button {
+  padding: 10px 18px; border: 0; border-radius: 999px; color: var(--plum);
+  background: var(--peach); font: inherit; font-weight: 800; cursor: pointer;
+}
+.welfare-search button:hover { background: var(--tangerine); }
+.foot-rescue a:focus-visible, .welfare-search input:focus-visible, .welfare-search button:focus-visible {
+  outline: 3px solid var(--tangerine); outline-offset: 3px;
+}
+.welfare-search-status { max-width: 820px; margin: -8px auto 18px; text-align: center; }
+.tempe-welfare {
+  max-width: 820px; margin: 0 auto 20px; padding: 20px; border-radius: 12px;
+  background: rgba(255,255,255,.08); overflow-wrap: anywhere;
+}
+.tempe-welfare h3 { margin: 12px 0; font-size: 1.2rem; }
+.tempe-welfare p { margin: 10px 0; }
+.tempe-welfare a { color: var(--peach); text-underline-offset: 3px; }
+.tempe-welfare address { font-style: normal; line-height: 1.5; }
+.verified-source {
+  display: inline-block; margin: 0; padding: 5px 10px; border-radius: 999px;
+  background: var(--peach); color: var(--plum); font-size: .82rem; font-weight: 800;
+}
+.tempe-311 {
+  display: grid; gap: 5px; margin-top: 16px; padding-top: 16px;
+  border-top: 1px solid rgba(255,255,255,.3);
+}
+.service-limitation { font-size: .92rem; }
 .foot-rescue ul { list-style: none; padding: 0; margin: 0 auto; max-width: 820px; display: grid; gap: 12px; }
 .foot-rescue li {
   background: rgba(255,255,255,.08); border-radius: 12px; padding: 16px 20px;
@@ -91,9 +124,12 @@
   .marquee-track img { width: 170px; height: 230px; }
   .fact { font-size: 1.5rem; }
   .foot-rescue { padding: 28px 16px; }
+  .tempe-welfare { padding: 16px; }
 }
 @media (max-width: 600px) {
   .dash-main { flex-direction: column; }
+  .welfare-search-controls { align-items: stretch; flex-direction: column; }
+  .welfare-search input { width: auto; }
 }
 @media (prefers-reduced-motion: reduce) {
   .marquee-track { animation: none; }

@@ -68,6 +68,24 @@ export const RESCUE_CONTACTS = {
   ],
 };
 
+export const TEMPE_WELFARE_RESOURCE = {
+  city: "Tempe",
+  searchTerms: ["tempe", "85281"],
+  name: "City of Tempe Office of Animal Welfare",
+  address: "3400 S. Mill Ave., Suite 25\nTempe, AZ 85282",
+  hotline: { label: "Animal Welfare Hotline", phone: "480-858-PETS (7387)" },
+  email: "animalwelfare@tempe.gov",
+  website: "https://www.tempe.gov/government/community-health-and-human-services/animal-welfare",
+  timeSensitiveContact: {
+    name: "Tempe 311",
+    description: "Time-sensitive animal-related needs during business hours",
+    phone: "480-350-4311",
+  },
+  serviceLimitation:
+    "No on-site animal care, veterinary services, or animal surrenders are provided at the Office of Animal Welfare.",
+  verified: true,
+};
+
 export const CONTACT_SOURCES = [
   { name: "Maricopa County — Lost & Found Pets", url: "https://www.maricopa.gov/162/lost-found-pet" },
   { name: "Town of Oro Valley — Animals & Pets (PACC)", url: "https://www.orovalleyaz.gov/Community/Animals-and-Pets" },
