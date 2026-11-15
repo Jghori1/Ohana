@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import logging
 from typing import Literal
 
 from fastapi import APIRouter
@@ -8,9 +9,11 @@ from pydantic import BaseModel, Field
 from ..core import store
 from ..core.search import search_pets
 from ..services.chat_rules import ChatCriteria, resolve_chat_criteria
+from ..services.gemini_chat import interpret_chat_filters
 
 
 router = APIRouter()
+_LOGGER = logging.getLogger(__name__)
 
 
 class ChatHistoryMessage(BaseModel):
@@ -76,14 +79,41 @@ def _reply(criteria: ChatCriteria, count: int) -> str:
     return f"I found {count} matching pet{'s' if count != 1 else ''}{intent}{city}."
 
 
+def _merge_criteria(
+    interpreted: ChatCriteria | None, rule_based: ChatCriteria
+) -> ChatCriteria:
+    if interpreted is None:
+        return rule_based
+    return ChatCriteria(
+        species=interpreted.species or rule_based.species,
+        age=interpreted.age or rule_based.age,
+        size=interpreted.size or rule_based.size,
+        sex=interpreted.sex or rule_based.sex,
+        city=interpreted.city or rule_based.city,
+        intent=interpreted.intent or rule_based.intent,
+        breed=interpreted.breed or rule_based.breed,
+    )
+
+
 @router.post("/api/chat")
 def chat(request: ChatRequest) -> dict[str, object]:
-    history = [item.text for item in request.history if item.role == "user"]
-    criteria = resolve_chat_criteria(
+    rule_history = [item.text for item in request.history if item.role == "user"]
+    interpreted = interpret_chat_filters(
         message=request.message,
-        history=history,
+        history=[
+            {"role": item.role, "text": item.text} for item in request.history[-6:]
+        ],
         location_city=request.location.city if request.location else None,
     )
+    if interpreted is not None:
+        _LOGGER.info("chat: gemini interpretation used")
+
+    rule_based = resolve_chat_criteria(
+        message=request.message,
+        history=rule_history,
+        location_city=request.location.city if request.location else None,
+    )
+    criteria = _merge_criteria(interpreted, rule_based)
 
     pets: list[dict[str, object]] = []
     if criteria.species:
