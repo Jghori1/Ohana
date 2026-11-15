@@ -4,6 +4,24 @@ import { recordChoice } from "./api.js";
 
 const HERO_SRC = "/hero.gif"; // animated puppy
 const LOGO_SRC = "/logo.png"; // house + heart + paws mark
+const ABOUT_ANIMALS = [
+  {
+    src: "/pets/golden-puppy.jpg",
+    alt: "Golden puppy sitting and looking toward the camera",
+  },
+  {
+    src: "/pets/tabby-kitten.jpg",
+    alt: "Tabby kitten resting",
+  },
+  {
+    src: "/pets/hamster.jpg",
+    alt: "Hamster sitting with its paws together",
+  },
+  {
+    src: "/footer/bunny-sketch.png",
+    alt: "Illustration of a rabbit",
+  },
+];
 
 /**
  * Bongo-cat-style landing page:
@@ -54,6 +72,12 @@ export default function Landing() {
   useEffect(() => {
     const onKey = (e) => {
       if (e.repeat || e.metaKey || e.ctrlKey) return;
+      if (
+        e.target instanceof Element &&
+        e.target.closest("button, a, .about-section")
+      ) {
+        return;
+      }
       tap(
         window.innerWidth * (0.3 + Math.random() * 0.4),
         window.innerHeight * (0.3 + Math.random() * 0.3)
@@ -79,7 +103,7 @@ export default function Landing() {
     <main
       className="landing"
       onClick={(e) => {
-        if (e.target.closest("button, a")) return;
+        if (e.target.closest("button, a, .about-section")) return;
         tap(e.clientX, e.clientY);
       }}
     >
@@ -117,6 +141,74 @@ export default function Landing() {
         </div>
       </section>
 
+      <section
+        id="about"
+        className="about-section"
+        aria-labelledby="about-heading"
+      >
+        <div className="about-intro">
+          <div className="about-copy">
+            <p className="about-brand">OHANA</p>
+            <h1 id="about-heading">Because every animal deserves a family.</h1>
+            <p className="about-lead">
+              At Ohana, we believe every animal deserves care, connection, and
+              the chance to find a family. We bring shelters and people
+              together in one place, making it easier to discover animals,
+              connect with shelters, foster, adopt, volunteer, donate, and find
+              ways to help animals in your community.
+            </p>
+          </div>
+
+          <div className="about-gallery">
+            {ABOUT_ANIMALS.map((animal) => (
+              <figure className="about-animal-card" key={animal.src}>
+                <img src={animal.src} alt={animal.alt} loading="lazy" />
+              </figure>
+            ))}
+          </div>
+        </div>
+
+        <figure className="about-quote">
+          <blockquote>“Ohana means family. Family means nobody gets left behind—or forgotten.”</blockquote>
+          <figcaption className="about-attribution">
+            <span>— Lilo &amp; Stitch</span>
+          </figcaption>
+        </figure>
+
+        <div className="about-details">
+          <article className="about-detail-card">
+            <h2>The Problem</h2>
+            <p>
+              People who want to help animals often have to search across many
+              different shelter websites and resources. Available animals,
+              foster opportunities, volunteer needs, and ways to support
+              shelters can be scattered across different places.
+            </p>
+          </article>
+
+          <article className="about-detail-card">
+            <h2>Our Mission</h2>
+            <p>
+              Ohana brings animal welfare opportunities together into one
+              welcoming experience. Our mission is to make it easier for people
+              and shelters to find each other and help more animals find care,
+              support, and families.
+            </p>
+          </article>
+
+          <article className="about-detail-card about-help-card">
+            <h2>How Ohana Helps</h2>
+            <ul>
+              <li>Discover animals available for adoption and fostering</li>
+              <li>Connect directly with shelters</li>
+              <li>Find volunteer opportunities</li>
+              <li>Support shelter needs</li>
+              <li>Find animal welfare resources</li>
+              <li>Ask the Ohana assistant to help search for animals</li>
+            </ul>
+          </article>
+        </div>
+      </section>
     </main>
   );
 }
