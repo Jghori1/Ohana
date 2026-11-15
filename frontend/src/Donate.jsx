@@ -1,109 +1,327 @@
-import { useMemo, useState } from "react";
-import { Link } from "react-router-dom";
-import { CAUSES, CAUSE_FILTERS, SHELTERS } from "./data/pets.js";
+import { useEffect, useMemo, useState } from "react";
 import Header from "./components/Header.jsx";
 import FooterStrip from "./components/FooterStrip.jsx";
-import ShelterDetail from "./components/ShelterDetail.jsx";
 import "./dashboard.css";
 import "./adopt.css";
 import "./donate.css";
 
-const EMPTY_PICK = { city: [], animal: [], type: [], urgency: [] };
-const LABELS = { city: "Location", animal: "Animals", type: "Cause", urgency: "Urgency" };
+const BASE = import.meta.env?.VITE_API_URL ?? "/api";
 
-/** Donate page: specific causes (a pet's meds, a surgery, supplies) with goals and progress */
+function safeWebsite(value) {
+  if (typeof value !== "string") return null;
+  try {
+    const url = new URL(value);
+    return url.protocol === "http:" || url.protocol === "https:"
+      ? url.href
+      : null;
+  } catch {
+    return null;
+  }
+}
+
 export default function Donate() {
-  const [picked, setPicked] = useState(EMPTY_PICK);
-  const [open, setOpen] = useState(null); // { shelter, cause } for the detail panel
+  const [causes, setCauses] = useState([]);
+  const [shelters, setShelters] = useState([]);
+  const [filters, setFilters] = useState({ city: "", urgency: "" });
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(false);
+  const [reload, setReload] = useState(0);
 
-  const toggle = (group, value) =>
-    setPicked((p) => ({
-      ...p,
-      [group]: p[group].includes(value) ? p[group].filter((v) => v !== value) : [...p[group], value],
-    }));
+  useEffect(() => {
+    const controller = new AbortController();
+    let active = true;
 
-  const causes = useMemo(
-    () => CAUSES.filter((c) => Object.keys(CAUSE_FILTERS).every((g) => picked[g].length === 0 || picked[g].includes(c[g]))),
-    [picked]
+    async function loadDonationData() {
+      setLoading(true);
+      setError(false);
+      try {
+        const [causesResponse, sheltersResponse] = await Promise.all([
+          fetch(`${BASE}/causes`, { signal: controller.signal }),
+          fetch(`${BASE}/shelters`, { signal: controller.signal }),
+        ]);
+        if (!causesResponse.ok || !sheltersResponse.ok) {
+          throw new Error("Donation information request failed.");
+        }
+
+        const [causeData, shelterData] = await Promise.all([
+          causesResponse.json(),
+          sheltersResponse.json(),
+        ]);
+        if (!Array.isArray(causeData) || !Array.isArray(shelterData)) {
+          throw new Error("Donation information response was invalid.");
+        }
+
+        if (active) {
+          setCauses(causeData);
+          setShelters(shelterData);
+        }
+      } catch (requestError) {
+        if (active && requestError.name !== "AbortError") {
+          setCauses([]);
+          setShelters([]);
+          setError(true);
+        }
+      } finally {
+        if (active) setLoading(false);
+      }
+    }
+
+    void loadDonationData();
+    return () => {
+      active = false;
+      controller.abort();
+    };
+  }, [reload]);
+
+  const sheltersById = useMemo(
+    () => new Map(shelters.map((shelter) => [String(shelter.id), shelter])),
+    [shelters],
   );
-  const anyPicked = Object.values(picked).some((v) => v.length);
-  const give = (cause) => {
-    const shelter = SHELTERS.find((s) => s.name === cause.shelter);
-    if (shelter) setOpen({ shelter, cause });
-  };
+  const cards = useMemo(() => {
+    const campaignCards = causes.map((cause) => {
+      const shelter = sheltersById.get(String(cause.shelterId));
+      return {
+        id: `cause-${cause.id}`,
+        kind: "campaign",
+        shelter: cause.shelter || shelter?.name || "",
+        city: cause.city || shelter?.city || "",
+        title: cause.pet || cause.type || "Shelter campaign",
+        type: cause.type || "",
+        description: cause.story || "",
+        urgency: cause.urgency || "",
+        items: Array.isArray(cause.breakdown)
+          ? cause.breakdown.filter((item) => typeof item === "string")
+          : [],
+        image: cause.src || shelter?.avatar || "",
+        website: safeWebsite(shelter?.website),
+      };
+    });
+    const needsCards = shelters.flatMap((shelter) => {
+      const items = Array.isArray(shelter.needs)
+        ? shelter.needs.filter(
+            (need) => typeof need === "string" && need.trim(),
+          )
+        : [];
+      if (items.length === 0) return [];
+      return [
+        {
+          id: `needs-${shelter.id}`,
+          kind: "needs",
+          shelter: shelter.name || "",
+          city: shelter.city || "",
+          title: "Current shelter needs",
+          type: "",
+          description: shelter.mission || shelter.about || "",
+          urgency: "",
+          items,
+          image: shelter.avatar || "",
+          website: safeWebsite(shelter.website),
+        },
+      ];
+    });
+    return [...campaignCards, ...needsCards];
+  }, [causes, shelters, sheltersById]);
+
+  const cityOptions = useMemo(
+    () =>
+      [
+        ...new Set([
+          ...shelters.map((shelter) => shelter.city),
+          ...causes.map((cause) => cause.city),
+        ].filter(Boolean)),
+      ].sort((a, b) => a.localeCompare(b)),
+    [causes, shelters],
+  );
+  const urgencyOptions = useMemo(
+    () =>
+      [...new Set(causes.map((cause) => cause.urgency).filter(Boolean))].sort(
+        (a, b) => a.localeCompare(b),
+      ),
+    [causes],
+  );
+  const filteredCards = cards.filter(
+    (card) =>
+      (!filters.city || card.city === filters.city) &&
+      (!filters.urgency || card.urgency === filters.urgency),
+  );
+  const hasFilters = Boolean(filters.city || filters.urgency);
 
   return (
     <div className="dash">
       <Header />
 
-      <main className="adopt">
-        <aside className="filters">
+      <main className="adopt donations-layout">
+        <aside className="filters donation-filters" aria-label="Donation filters">
           <h2>Filter</h2>
-          {Object.entries(CAUSE_FILTERS).map(([group, values]) => (
-            <fieldset key={group}>
-              <legend>{LABELS[group]}</legend>
-              {values.map((v) => (
-                <label key={v}>
-                  <input type="checkbox" checked={picked[group].includes(v)} onChange={() => toggle(group, v)} />
-                  {v}
-                </label>
-              ))}
-            </fieldset>
-          ))}
-          {anyPicked && (
-            <button type="button" className="clear" onClick={() => setPicked(EMPTY_PICK)}>Clear filters</button>
+          <label htmlFor="donation-city">City</label>
+          <select
+            id="donation-city"
+            value={filters.city}
+            onChange={(event) =>
+              setFilters((current) => ({ ...current, city: event.target.value }))
+            }
+          >
+            <option value="">All cities</option>
+            {cityOptions.map((city) => (
+              <option key={city} value={city}>
+                {city}
+              </option>
+            ))}
+          </select>
+
+          <label htmlFor="donation-urgency">Urgency</label>
+          <select
+            id="donation-urgency"
+            value={filters.urgency}
+            onChange={(event) =>
+              setFilters((current) => ({
+                ...current,
+                urgency: event.target.value,
+              }))
+            }
+            disabled={urgencyOptions.length === 0}
+          >
+            <option value="">All urgency levels</option>
+            {urgencyOptions.map((urgency) => (
+              <option key={urgency} value={urgency}>
+                {urgency}
+              </option>
+            ))}
+          </select>
+          {hasFilters && (
+            <button
+              type="button"
+              className="clear"
+              onClick={() => setFilters({ city: "", urgency: "" })}
+            >
+              Clear filters
+            </button>
           )}
         </aside>
 
-        <section className="listings">
-          <h1 className="page-title">Donate</h1>
-          <p className="count">{causes.length} {causes.length === 1 ? "cause" : "causes"} that need you</p>
-          {causes.length === 0 && <p className="none">No causes match those filters yet.</p>}
-          {causes.map((c) => {
-            const raised = c.raised;
-            const pct = Math.min(100, Math.round((raised / c.goal) * 100));
-            const funded = raised >= c.goal;
-            return (
-              <article key={c.id} className="pet cause">
-                <figure className="insta">
-                  <img src={c.src} alt={c.pet} loading="lazy" />
-                </figure>
-                <div className="notepad">
-                  <span className={`urgency ${c.urgency.replace(/\s/g, "-").toLowerCase()}`}>{c.urgency}</span>
-                  <h3>{c.pet} needs {c.type.toLowerCase()}</h3>
-                  <p className="meta">
-                    {SHELTERS.find((s) => s.name === c.shelter)
-                      ? <Link className="shelter-link" to={`/shelters/${SHELTERS.find((s) => s.name === c.shelter).id}`}>{c.shelter}</Link>
-                      : c.shelter} · {c.city}
-                  </p>
-                  <p>{c.story}</p>
-                  <ul>
-                    {c.breakdown.map((b) => <li key={b}>{b}</li>)}
-                  </ul>
-                  <div className="progress">
-                    <div className="bar"><span style={{ width: `${pct}%` }} /></div>
-                    <p className="raised"><strong>${raised.toLocaleString()}</strong> raised of ${c.goal.toLocaleString()} · {pct}%</p>
-                  </div>
-                  {funded ? (
-                    <p className="thanks">Fully funded — thank you!</p>
-                  ) : (
-                    <button type="button" className="meet" onClick={() => give(c)}>Give</button>
-                  )}
-                </div>
-              </article>
-            );
-          })}
+        <section className="listings donation-listings">
+          <header className="donations-heading">
+            <h1 className="page-title">Support local shelters</h1>
+            <p>
+              Explore current shelter campaigns and needs, then choose how
+              you&apos;d like to help.
+            </p>
+            <p className="donation-disclaimer" role="note">
+              Donations go directly to the shelter&apos;s own page. We never
+              handle payments.
+            </p>
+          </header>
+
+          {loading && (
+            <p className="donation-status" role="status">
+              Loading current shelter donation information…
+            </p>
+          )}
+          {error && (
+            <div className="donation-error" role="alert">
+              <p>
+                We couldn&apos;t load current donation information. Please try
+                again.
+              </p>
+              <button
+                type="button"
+                className="clear"
+                onClick={() => setReload((current) => current + 1)}
+              >
+                Try again
+              </button>
+            </div>
+          )}
+          {!loading && !error && (
+            <>
+              <p className="count">
+                {filteredCards.length}{" "}
+                {filteredCards.length === 1 ? "listing" : "listings"} available
+              </p>
+              {cards.length === 0 ? (
+                <p className="none">
+                  No current donation needs or campaigns are listed by
+                  shelters. Please check back later.
+                </p>
+              ) : filteredCards.length === 0 ? (
+                <p className="none">
+                  No donation listings match those filters.
+                </p>
+              ) : (
+                filteredCards.map((card) => (
+                  <article
+                    className={`donation-card${
+                      card.image ? "" : " donation-card-no-image"
+                    }`}
+                    key={card.id}
+                  >
+                    {card.image && (
+                      <img
+                        className="donation-card-image"
+                        src={card.image}
+                        alt={card.title}
+                        loading="lazy"
+                      />
+                    )}
+                    <div className="donation-card-content">
+                      <div className="donation-card-labels">
+                        <span className="donation-kind">
+                          {card.kind === "needs" ? "Shelter needs" : card.type || "Campaign"}
+                        </span>
+                        {card.urgency && (
+                          <span
+                            className={`urgency ${card.urgency
+                              .replace(/\s/g, "-")
+                              .toLowerCase()}`}
+                          >
+                            {card.urgency}
+                          </span>
+                        )}
+                      </div>
+                      <h2>{card.title}</h2>
+                      {card.shelter && (
+                        <p className="donation-shelter">{card.shelter}</p>
+                      )}
+                      {card.city && (
+                        <p className="donation-location">{card.city}</p>
+                      )}
+                      {card.description && <p>{card.description}</p>}
+                      {card.items.length > 0 && (
+                        <>
+                          <h3>
+                            {card.kind === "needs"
+                              ? "Items needed"
+                              : "Campaign details"}
+                          </h3>
+                          <ul>
+                            {card.items.map((item, index) => (
+                              <li key={`${card.id}-${index}`}>{item}</li>
+                            ))}
+                          </ul>
+                        </>
+                      )}
+                      {card.website ? (
+                        <a
+                          className="meet donation-link"
+                          href={card.website}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                          Donate on the shelter&apos;s website ↗
+                        </a>
+                      ) : (
+                        <p className="donation-website-missing">
+                          Shelter website not provided.
+                        </p>
+                      )}
+                    </div>
+                  </article>
+                ))
+              )}
+            </>
+          )}
         </section>
       </main>
-
-      {open && (
-        <ShelterDetail
-          shelter={open.shelter}
-          headline={`${open.cause.pet} is cared for by ${open.shelter.name}. Here's where your gift goes.`}
-          cta="Donate on the shelter's website"
-          onClose={() => setOpen(null)}
-        />
-      )}
 
       <FooterStrip />
     </div>
