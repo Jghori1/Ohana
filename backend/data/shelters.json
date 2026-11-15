@@ -1,0 +1,173 @@
+[
+  {
+    "id": "shelter_39dea9d7036b",
+    "name": "Friends for Life Animal Rescue",
+    "city": "Gilbert",
+    "address": "952 W. Melody Ave.",
+    "mission": "",
+    "about": "AZ Friends for Life Animal Rescue is a privately supported, limited in-take no-kill rescue organization located in Gilbert, Arizona, dedicated to serving homeless animals and the community since 1993. The organization focuses on rescue, spay and neuter, adoptions, and education to impact animal overpopulation. They operate without government financial support, relying on volunteers. They are a registered 501c3 non-profit organization (tax ID 86-0726443) and have re-homed over 10,000 dogs and cats.",
+    "hours": "",
+    "phone": "480-497-8296",
+    "email": "",
+    "website": "https://azfriends.org/",
+    "avatar": "",
+    "animals": [],
+    "roles": [],
+    "needs": [],
+    "notes": [],
+    "source": "tinyfish",
+    "area": "85282",
+    "policies": {
+      "adopt": [
+        "Potential adopters must visit the adoption center during regular hours to speak with an animal adoption counselor.",
+        "Adoption counselors will discuss the adopter's home, family, and lifestyle to ensure a proper 'love connection' match.",
+        "Adult dogs are $350 and up; senior dogs are $195 and under; puppies are $395 and up.",
+        "Adult cats are $175.00 and up; kittens under a year are $225.00 and up; pedigree cats are $250.00 and up.",
+        "Fees for high-demand or purebred animals may be higher, while fees for senior or harder-to-place animals may be reduced."
+      ],
+      "foster": [
+        "Fosterers must be 18 years or older.",
+        "Volunteers must commit to serving a minimum of four hours per month.",
+        "Those interested in fostering should email volunteer@azfriends.org to inquire."
+      ],
+      "sourceUrl": "https://azfriends.org/",
+      "kind": "from-site"
+    }
+  },
+  {
+    "id": "shelter_6900a91f6b4c",
+    "name": "Arizona Small Dog Rescue",
+    "city": "Tempe",
+    "address": "932 E. Guadalupe Road",
+    "mission": "",
+    "about": "A non-profit, tax-exempt 501(c)3, no-kill rescue organization based in Phoenix, AZ. Committed to saving and caring for dogs in need until they find their perfect forever home; they believe love comes in all sizes and accept dogs of all breeds.",
+    "hours": "",
+    "phone": "602-944-2440",
+    "email": "",
+    "website": "https://azsmalldog.org/",
+    "avatar": "",
+    "animals": [
+      "Dogs"
+    ],
+    "roles": [],
+    "needs": [],
+    "notes": [],
+    "source": "tinyfish",
+    "area": "85282",
+    "policies": {
+      "adopt": [
+        "Submit an application online via the Submit Application button to start the adoption process.",
+        "An adoption counselor will be in touch to schedule an appointment at the shelter after your application is submitted.",
+        "Visitors who are unsure which dog they would like to meet can still submit an application and visit the shelter."
+      ],
+      "foster": [
+        "Fostering provides a temporary home for puppies, moms with pups, seniors, or medical cases until they are ready for adoption.",
+        "Arizona Small Dog Rescue covers all medical expenses for your foster dog.",
+        "The organization provides all necessary supplies such as a kennel, food, toys, and dishes.",
+        "Foster parents must provide a safe space for their foster dog to unwind and relax."
+      ],
+      "sourceUrl": "https://azsmalldog.org/",
+      "kind": "from-site"
+    }
+  },
+  {
+    "id": "shelter_70735a649c1d",
+    "name": "Arizona Animal Welfare League & Humane Society",
+    "city": "Phoenix",
+    "address": "25 N. 40th St.",
+    "mission": "",
+    "about": "Arizona Animal Welfare League & Humane Society is a 501(c)(3) non-profit organization dedicated to scaling intelligence to serve humanity by providing a wide range of adoptable cats and dogs that are cared for, medically evaluated, and ready to meet their match, while also offering veterinary services, dog training, and community resources. It is Arizona's oldest and largest no-kill shelter.",
+    "hours": "",
+    "phone": "602-273-6852",
+    "email": "",
+    "website": "https://aawl.org/",
+    "avatar": "",
+    "animals": [
+      "Dogs"
+    ],
+    "roles": [],
+    "needs": [],
+    "notes": [],
+    "source": "tinyfish",
+    "area": "85282",
+    "policies": {
+      "adopt": [
+        "You must be at least 18 years old to adopt.",
+        "Browse the online Dog or Cat Gallery, then visit a Main Shelter or Chandler location for a walk-in meeting with no appointment needed.",
+        "Bring the whole family, including existing dogs, for potential dog-to-dog introductions.",
+        "Meet with an adoption counselor to discuss your lifestyle and find a match, then meet dogs one-on-one in play yards.",
+        "Complete paperwork and receive adoption details before heading home."
+      ],
+      "foster": [
+        "No prior experience is necessary to foster an animal.",
+        "AAWL provides food, supplies, necessary equipment, veterinary care, medical support, and guidance from the foster team.",
+        "Fosters must provide a welcoming space, time, attention, daily care, and patience as the animal settles in."
+      ],
+      "sourceUrl": "https://aawl.org/",
+      "kind": "from-site"
+    }
+  },
+  {
+    "id": "shelter_cfcfbc476ab1",
+    "name": "HALO Animal Rescue",
+    "city": "Glendale",
+    "address": "7150 N 110th Ave",
+    "mission": "",
+    "about": "HALO Animal Rescue serves as a safety net for thousands of homeless dogs and cats each year, operating as a no-kill shelter that provides veterinary care, love, and nurturing to animals until they find their forever homes.",
+    "hours": "",
+    "phone": "(602) 971-9222",
+    "email": "",
+    "website": "https://halorescue.org/",
+    "avatar": "",
+    "animals": [
+      "Cats"
+    ],
+    "roles": [],
+    "needs": [],
+    "notes": [],
+    "source": "tinyfish",
+    "area": "85282"
+  },
+  {
+    "id": "shelter_dea790f3dab3",
+    "name": "Almost There Rescue",
+    "city": "Phoenix",
+    "address": "2611 E Indian School Rd",
+    "mission": "",
+    "about": "Almost There Rescue is a Phoenix, AZ-based animal rescue organization specializing in saving the lives of pregnant and nursing dogs and puppies. The organization focuses on providing medical care and support to homeless mamas and pups to reduce canine overpopulation. They operate as a 'YES' rescue with an appointment-based adoption system.",
+    "hours": "",
+    "phone": "480.336.9860",
+    "email": "",
+    "website": "https://www.almostthererescue.org/",
+    "avatar": "",
+    "animals": [
+      "Dogs"
+    ],
+    "roles": [],
+    "needs": [],
+    "notes": [],
+    "source": "tinyfish",
+    "area": "85282"
+  },
+  {
+    "id": "shelter_b21baa2580d8",
+    "name": "Lost Our Home Pet Rescue",
+    "city": "Tempe",
+    "address": "2323 South Hardy Drive",
+    "mission": "",
+    "about": "A top-rated non-profit pet rescue organization dedicated to helping pets and their people in crisis. They bridge the care gap for people facing challenges such as domestic violence, homelessness, medical emergencies, and financial hardship, ensuring pets remain safe and cared for. Services include a Pet Food Bank, Temporary Care Program, adoption services, and more. They have helped over 40,000 pets and 25,000 people since 2008.",
+    "hours": "",
+    "phone": "602 445 7387",
+    "email": "",
+    "website": "https://www.lostourhome.org/",
+    "avatar": "",
+    "animals": [
+      "Dogs"
+    ],
+    "roles": [],
+    "needs": [],
+    "notes": [],
+    "source": "tinyfish",
+    "area": "85282"
+  }
+]

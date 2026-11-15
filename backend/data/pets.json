@@ -1,0 +1,338 @@
+[
+  {
+    "id": "pet_b84fd0b271e9",
+    "name": "Dante",
+    "src": "https://new-s3.shelterluv.com/profile-pictures/0136bfde04f2239d5d68a762cab85603/19cb5054368a6a126d982cdab5d87c03.jpg",
+    "shelterId": "shelter_6900a91f6b4c",
+    "species": "Dog",
+    "age": "Adult",
+    "size": null,
+    "sex": "Male",
+    "breed": "Terrier",
+    "notes": [],
+    "sourceUrl": "https://azsmalldog.org/dog-details/?id=210628364",
+    "area": "85282",
+    "details": {
+      "story": "Dante is a charming, tail-chasing sweetheart who is loyal, affectionate, housebroken, leash-trained, and knows several tricks. He enjoys stuffed toys and chasing his tail. He thrives in a calm, adult-only home with another canine friend and is crate trained. He is not comfortable around children and can be protective of his space during meals.",
+      "health": null,
+      "idealHome": null,
+      "fee": 300
+    },
+    "policies": {
+      "adopt": [],
+      "foster": []
+    }
+  },
+  {
+    "id": "pet_3ef4478cd1ee",
+    "name": "Russet",
+    "src": "https://new-s3.shelterluv.com/profile-pictures/191e002ee198a3674cb3d83c74a53292/be17ec9494d19afcb5540ad2925327f9.jpg",
+    "shelterId": "shelter_6900a91f6b4c",
+    "species": "Dog",
+    "age": "Young",
+    "size": null,
+    "sex": "Male",
+    "breed": "Shepherd/Mixed Breed (Medium)",
+    "notes": [],
+    "sourceUrl": "https://azsmalldog.org/dog-details/?id=211867547",
+    "area": "85282",
+    "details": {
+      "story": "Russet is a high-energy, 31-pound wild child/couch potato mix who is crate trained and loves toys. He is shy at first, needs an active home with an experienced handler, and must be in a home free of small animals due to potential resource guarding.",
+      "health": null,
+      "idealHome": null,
+      "fee": 400
+    },
+    "policies": {
+      "adopt": [],
+      "foster": []
+    }
+  },
+  {
+    "id": "pet_2b7d1858e143",
+    "name": "Jedi Bear",
+    "src": "https://new-s3.shelterluv.com/profile-pictures/6d60b89b0eed75cd4e4f25de0e43f0e4/49d64cf1ccdd6a30bb958a93bdd3d6f9.jpg",
+    "shelterId": "shelter_6900a91f6b4c",
+    "species": "Dog",
+    "age": "Adult",
+    "size": null,
+    "sex": "Male",
+    "breed": "Terrier, Yorkshire, Yorkie/Mixed Breed (Small)",
+    "notes": [],
+    "sourceUrl": "https://azsmalldog.org/dog-details/?id=212414368",
+    "area": "85282",
+    "details": {
+      "story": "Jedi Bear is a strong, loyal gentleman with a protective nature and a deep bond to his people. He takes his role as guardian seriously and thrives in a calm, structured environment where he knows his humans are safe. Would do best as the only pet in an adult-only home. Devoted, steady, and incredibly rewarding.",
+      "health": null,
+      "idealHome": null,
+      "fee": 300
+    },
+    "policies": {
+      "adopt": [],
+      "foster": []
+    }
+  },
+  {
+    "id": "pet_96892e504389",
+    "name": "Kintsugi",
+    "src": "https://new-s3.shelterluv.com/profile-pictures/8e9b503ea73c2198415ac0b9f54c4b7a/58728842d9c5792361cf7ccda1aea924.jpg",
+    "shelterId": "shelter_6900a91f6b4c",
+    "species": "Dog",
+    "age": "Baby",
+    "size": null,
+    "sex": "Male",
+    "breed": "Mastiff, Cane Corso",
+    "notes": [],
+    "sourceUrl": "https://azsmalldog.org/dog-details/?id=212654501",
+    "area": "85282",
+    "details": {
+      "story": "Kintsugi is a big-hearted Cane Corso puppy with an even bigger personality. Found abandoned in a bush as a tiny puppy, this resilient boy was born with a cleft lip. Smart, stubborn, full of confidence, sweet and loyal. Good with other dogs, does well with kids, loves being included in all the action.",
+      "health": null,
+      "idealHome": null,
+      "fee": 400
+    },
+    "policies": {
+      "adopt": [],
+      "foster": []
+    }
+  },
+  {
+    "id": "pet_6f601452bf9a",
+    "name": "Manko",
+    "src": "https://aawl.org/wp-content/uploads/2026/05/3065e586-3759-4120-895f-6bd549300608.jpg",
+    "shelterId": "shelter_70735a649c1d",
+    "species": "Dog",
+    "age": "Adult",
+    "size": "Large",
+    "sex": "Male",
+    "breed": "Pit Bull Terrier mix",
+    "notes": [],
+    "sourceUrl": "https://aawl.org/adopt/60650625/",
+    "area": "85282",
+    "details": {
+      "story": "Manko is a sweet boy who knows tricks like sit, down, and stay. He enjoys chew toys, words of affirmation, and daily walks. He is required to be the only dog in the home but has the potential to live with kids of all ages.",
+      "health": null,
+      "idealHome": null,
+      "fee": 0
+    },
+    "policies": {
+      "adopt": [],
+      "foster": []
+    }
+  },
+  {
+    "id": "pet_525ef8ec142e",
+    "name": "Zesty",
+    "src": "https://g.petango.com/photos/1602/1079cdc5-0c7f-4689-8757-72866b7a7fde.jpg",
+    "shelterId": "shelter_cfcfbc476ab1",
+    "species": "Cat",
+    "age": "Adult",
+    "size": "Small",
+    "sex": "Male",
+    "breed": "Domestic Shorthair/Mix",
+    "notes": [],
+    "sourceUrl": "https://ws.petango.com/webservices/adoptablesearch/wsAdoptableAnimalDetails2.aspx?id=50496208&css=https://ws.petango.com/WebServices/adoptablesearch/css/styles.css&authkey=p1hcyln2w8x44ggh4axsf25ldm2r7ukd1nsv48xu5dhh4pnlqh&PopUp=true",
+    "area": "85282",
+    "details": {
+      "story": "Outgoing, friendly, and playful. Part of a bonded pair with Vanilla and must be adopted together.",
+      "health": null,
+      "idealHome": null,
+      "fee": 37.5
+    },
+    "policies": {
+      "adopt": [],
+      "foster": []
+    }
+  },
+  {
+    "id": "pet_ac1b94069ed0",
+    "name": "Vanilla",
+    "src": "https://g.petango.com/photos/1602/74fcd817-77a0-40c0-b38a-3ce91550e299.jpg",
+    "shelterId": "shelter_cfcfbc476ab1",
+    "species": "Cat",
+    "age": "Adult",
+    "size": "Small",
+    "sex": "Female",
+    "breed": "Domestic Shorthair/Mix",
+    "notes": [],
+    "sourceUrl": "https://ws.petango.com/webservices/adoptablesearch/wsAdoptableAnimalDetails2.aspx?id=50496236&css=https://ws.petango.com/WebServices/adoptablesearch/css/styles.css&authkey=p1hcyln2w8x44ggh4axsf25ldm2r7ukd1nsv48xu5dhh4pnlqh&PopUp=true",
+    "area": "85282",
+    "details": {
+      "story": "Independent cat who prefers a quiet, predictable home where she can have space. Must be adopted together with bonded companion Zesty.",
+      "health": null,
+      "idealHome": null,
+      "fee": 37.5
+    },
+    "policies": {
+      "adopt": [],
+      "foster": []
+    }
+  },
+  {
+    "id": "pet_e549bdaad508",
+    "name": "Raven",
+    "src": "https://dbw3zep4prcju.cloudfront.net/animal/24a9de3a-335d-45a1-bd03-54f40733c19f/image/832add6a-40d2-48d0-a115-f6256fc6df32.jpg",
+    "shelterId": "shelter_dea790f3dab3",
+    "species": "Dog",
+    "age": null,
+    "size": "Medium",
+    "sex": null,
+    "breed": "Husky",
+    "notes": [],
+    "sourceUrl": "https://www.petfinder.com/dog/raven-24a9de3a-335d-45a1-bd03-54f40733c19f/az/phoenix/almost-there-a-mom-pups-rescue-az626/details",
+    "area": "85282",
+    "details": {
+      "story": null,
+      "health": null,
+      "idealHome": null,
+      "fee": null
+    },
+    "policies": {
+      "adopt": [],
+      "foster": []
+    }
+  },
+  {
+    "id": "pet_1ac979c81856",
+    "name": "Gherkin",
+    "src": "https://dbw3zep4prcju.cloudfront.net/animal/0d05e5ec-dddc-49bf-be1f-d23f12b1184a/image/2306f842-2aaa-4044-9d3e-792740d54ad1.jpg",
+    "shelterId": "shelter_dea790f3dab3",
+    "species": "Dog",
+    "age": null,
+    "size": "Small",
+    "sex": null,
+    "breed": "Terrier",
+    "notes": [],
+    "sourceUrl": "https://www.petfinder.com/dog/gherkin-0d05e5ec-dddc-49bf-be1f-d23f12b1184a/az/phoenix/almost-there-a-mom-pups-rescue-az626/details",
+    "area": "85282",
+    "details": {
+      "story": null,
+      "health": null,
+      "idealHome": null,
+      "fee": null
+    },
+    "policies": {
+      "adopt": [],
+      "foster": []
+    }
+  },
+  {
+    "id": "pet_e7c3fb322382",
+    "name": "Bryaxis",
+    "src": "https://dbw3zep4prcju.cloudfront.net/animal/493d009f-ca8b-454f-b44b-f125965b6c63/image/2310144e-44b0-4648-88b7-ae932a1efb22.jpg",
+    "shelterId": "shelter_dea790f3dab3",
+    "species": "Dog",
+    "age": null,
+    "size": "Large",
+    "sex": null,
+    "breed": "German Shepherd Dog",
+    "notes": [],
+    "sourceUrl": "https://www.petfinder.com/dog/bryaxis-493d009f-ca8b-454f-b44b-f125965b6c63/az/phoenix/almost-there-a-mom-pups-rescue-az626/details",
+    "area": "85282",
+    "details": {
+      "story": null,
+      "health": null,
+      "idealHome": null,
+      "fee": null
+    },
+    "policies": {
+      "adopt": [],
+      "foster": []
+    }
+  },
+  {
+    "id": "pet_fd3d23109f54",
+    "name": "Macro",
+    "src": "https://dbw3zep4prcju.cloudfront.net/animal/a31f99dc-7753-4518-a7ea-7fc53c33910a/image/27101ebd-78c3-49ec-8a57-3b3c79e000ef.jpg",
+    "shelterId": "shelter_dea790f3dab3",
+    "species": "Dog",
+    "age": null,
+    "size": "Small",
+    "sex": null,
+    "breed": "Chihuahua",
+    "notes": [],
+    "sourceUrl": "https://www.petfinder.com/dog/macro-a31f99dc-7753-4518-a7ea-7fc53c33910a/az/phoenix/almost-there-a-mom-pups-rescue-az626/details",
+    "area": "85282",
+    "details": {
+      "story": null,
+      "health": null,
+      "idealHome": null,
+      "fee": null
+    },
+    "policies": {
+      "adopt": [],
+      "foster": []
+    }
+  },
+  {
+    "id": "pet_41880d0b9292",
+    "name": "Eco",
+    "src": "https://dbw3zep4prcju.cloudfront.net/animal/1bb976bf-372a-4157-a775-4909e102bd34/image/5087129d-e88d-4655-b0bd-1d6a55383741.jpg",
+    "shelterId": "shelter_dea790f3dab3",
+    "species": "Dog",
+    "age": null,
+    "size": "Medium",
+    "sex": null,
+    "breed": "Australian Shepherd",
+    "notes": [],
+    "sourceUrl": "https://www.petfinder.com/dog/eco-1bb976bf-372a-4157-a775-4909e102bd34/az/phoenix/almost-there-a-mom-pups-rescue-az626/details",
+    "area": "85282",
+    "details": {
+      "story": null,
+      "health": null,
+      "idealHome": null,
+      "fee": null
+    },
+    "policies": {
+      "adopt": [],
+      "foster": []
+    }
+  },
+  {
+    "id": "pet_107d26534363",
+    "name": "Loki",
+    "src": "https://new-s3.shelterluv.com/profile-pictures/36c4b7d7a53f77fe0df5504b1cf0ac85/bff72731b04d597523d53b6d148bedd9.jpg",
+    "shelterId": "shelter_b21baa2580d8",
+    "species": "Dog",
+    "age": "Adult",
+    "size": "Small",
+    "sex": "Male",
+    "breed": "Chihuahua, Short Coat",
+    "notes": [],
+    "sourceUrl": "https://www.lostourhome.org/adopt-a-pet/animal-info?aid=214192966",
+    "area": "85282",
+    "details": {
+      "story": "Loki is a sweet and affectionate Chihuahua who loves nothing more than being close to his people. Whether he's cuddling on the couch or following you from room to room, Loki is happiest when he's spending time with those he loves. Loki can be nervous in new situations and experiences some separation anxiety. He has previously lived with both dogs and cats. He is currently living in a foster home.",
+      "health": null,
+      "idealHome": null,
+      "fee": 350
+    },
+    "policies": {
+      "adopt": [],
+      "foster": []
+    }
+  },
+  {
+    "id": "pet_c27808d3d0b7",
+    "name": "Tofurkey",
+    "src": "https://new-s3.shelterluv.com/profile-pictures/18b578ad07a0f49af4d255bea1cfa221/dd3397be3d43a04b1a99d4e0cabeb3ba.png",
+    "shelterId": "shelter_b21baa2580d8",
+    "species": "Dog",
+    "age": "Baby",
+    "size": "Medium",
+    "sex": "Male",
+    "breed": "Chihuahua, Short Coat/Mixed Breed (Medium)",
+    "notes": [],
+    "sourceUrl": "https://www.lostourhome.org/adopt-a-pet/animal-info?aid=213878626",
+    "area": "85282",
+    "details": {
+      "story": "Tofurkey is a sweet, spirited puppy with an adorable face and a whole lot of enthusiasm. Like many young pups, he's still figuring out the world and can be a bit unsure in new situations. He has high energy and a playful, rowdy style, and is very food-motivated, which is great for training. He's still learning manners and can be mouthy and rough in play. He'd do best in a home with adults or kids over 7.",
+      "health": null,
+      "idealHome": null,
+      "fee": 455
+    },
+    "policies": {
+      "adopt": [],
+      "foster": []
+    }
+  }
+]
