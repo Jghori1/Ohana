@@ -1,8 +1,8 @@
 import { useEffect, useRef, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { post } from "../api.js";
 import "../chat.css";
 
+const BASE = import.meta.env?.VITE_API_URL ?? "/api";
 const MESSAGE_STORAGE_KEY = "pawpatrol_chat_messages";
 const HINT_STORAGE_KEY = "pawpatrol_chat_hint_dismissed";
 const GREETING =
@@ -36,29 +36,23 @@ function readStoredMessages() {
   return [{ role: "assistant", text: GREETING, pets: [] }];
 }
 
-function readSavedArea() {
+function readLocation() {
   try {
-    return JSON.parse(localStorage.getItem("pawpatrolArea") || "null");
+    const stored = localStorage.getItem("sunhacks_location");
+    if (!stored) return null;
+
+    const location = JSON.parse(stored);
+    const lat = Number(location?.lat);
+    const lng = Number(location?.lng);
+    if (
+      Number.isFinite(lat) &&
+      Number.isFinite(lng) &&
+      typeof location?.city === "string"
+    ) {
+      return { lat, lng, city: location.city };
+    }
   } catch {
     return null;
-  }
-}
-
-function readAreaZip() {
-  const area = readSavedArea();
-  return typeof area?.zip === "string" ? area.zip : "";
-}
-
-function readLocation() {
-  const area = readSavedArea();
-  const lat = Number(area?.lat);
-  const lng = Number(area?.lng);
-  if (
-    Number.isFinite(lat) &&
-    Number.isFinite(lng) &&
-    typeof area?.city === "string"
-  ) {
-    return { lat, lng, city: area.city };
   }
   return null;
 }
@@ -142,17 +136,23 @@ export default function ChatWidget() {
     ]);
 
     try {
-      const data = await post("/chat", {
-        message,
-        zip: readAreaZip() || undefined,
-        history: messages
-          .slice(-6)
-          .map(({ role, text: messageText }) => ({
-            role,
-            text: messageText,
-          })),
-        location: readLocation(),
+      const response = await fetch(`${BASE}/chat`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          message,
+          history: messages
+            .slice(-6)
+            .map(({ role, text: messageText }) => ({
+              role,
+              text: messageText,
+            })),
+          location: readLocation(),
+        }),
       });
+      if (!response.ok) throw new Error(`Chat API returned ${response.status}`);
+
+      const data = await response.json();
       if (
         !data ||
         typeof data.reply !== "string" ||
@@ -214,7 +214,7 @@ export default function ChatWidget() {
           aria-labelledby="chat-title"
         >
           <header className="chat-header">
-            <img className="chat-avatar" src="/hero.gif" alt="Ohana mascot" />
+            <img className="chat-avatar" src="/chat-avatar-plain.png" alt="" draggable={false} />
             <strong id="chat-title">Ohana assistant</strong>
             <button
               type="button"
@@ -344,13 +344,7 @@ export default function ChatWidget() {
         aria-expanded={open}
         aria-controls={open ? "chat-panel" : undefined}
       >
-        <svg viewBox="0 0 64 64" aria-hidden="true">
-          <ellipse cx="32" cy="42" rx="14" ry="12" />
-          <ellipse cx="14" cy="26" rx="6" ry="8" />
-          <ellipse cx="26" cy="15" rx="6" ry="8" />
-          <ellipse cx="38" cy="15" rx="6" ry="8" />
-          <ellipse cx="50" cy="26" rx="6" ry="8" />
-        </svg>
+        <img src="/chat-avatar.png" alt="" draggable={false} />
       </button>
     </div>
   );
