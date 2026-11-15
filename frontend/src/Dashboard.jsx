@@ -1,271 +1,333 @@
 import { useEffect, useRef, useState } from "react";
-import {
-  PETS,
-  FUN_FACTS,
-  RESCUE_CONTACTS,
-  REGIONS,
-  TEMPE_WELFARE_RESOURCE,
-} from "./data/pets.js";
+import { get } from "./api.js";
 import Header from "./components/Header.jsx";
 import FooterStrip from "./components/FooterStrip.jsx";
 import HamsterLoader from "./components/HamsterLoader.jsx";
 import "./dashboard.css";
 
-const FALLBACK = "Somewhere else";
+const FALLBACK_PHOTOS = [
+  "/pets/kitten-grey-white.jpg",
+  "/pets/golden-puppy.jpg",
+  "/pets/bernese.jpg",
+  "/pets/scottish-fold.jpg",
+  "/pets/tabby-kitten.jpg",
+  "/pets/hamster.jpg",
+  "/pets/two-puppies.jpg",
+  "/pets/husky.jpg",
+].map((src) => ({ src, alt: "" }));
 
-// Haversine distance in km
-function distanceKm(a, b) {
-  const R = 6371, toRad = (d) => (d * Math.PI) / 180;
-  const dLat = toRad(b.lat - a.lat), dLng = toRad(b.lng - a.lng);
-  const h = Math.sin(dLat / 2) ** 2 + Math.cos(toRad(a.lat)) * Math.cos(toRad(b.lat)) * Math.sin(dLng / 2) ** 2;
-  return 2 * R * Math.asin(Math.sqrt(h));
+function readStoredArea() {
+  try {
+    const area = JSON.parse(localStorage.getItem("pawpatrolArea") || "null");
+    return typeof area?.zip === "string" && /^\d{5}$/.test(area.zip)
+      ? area
+      : null;
+  } catch {
+    return null;
+  }
 }
-// Nearest configured region within its radius; otherwise use the general fallback.
-function regionFor(pos) {
-  const nearest = REGIONS
-    .map((region) => ({ region, distance: distanceKm(pos, region) }))
-    .filter(({ region, distance }) => distance <= region.km)
-    .sort((a, b) => a.distance - b.distance)[0];
 
-  return nearest?.region.name ?? FALLBACK;
-}
+const hideBrokenImage = (event) => {
+  event.currentTarget.style.visibility = "hidden";
+};
 
-/** Individual dashboard: llama-life top bar, Pusheen-style two-panel hero, cartoon-strip footer. */
+/** Individual dashboard: llama-life top bar, two-panel hero and rescue contacts. */
 export default function Dashboard() {
   const [factIdx, setFactIdx] = useState(0);
-  const [geo, setGeo] = useState({ status: "idle", region: FALLBACK });
-  const [manualQuery, setManualQuery] = useState("");
-  const [manualSearch, setManualSearch] = useState({ status: "idle" });
+  const [facts, setFacts] = useState([]);
+  const [factsError, setFactsError] = useState("");
+  const [livePhotos, setLivePhotos] = useState([]);
+  const [area, setArea] = useState(readStoredArea);
+  const [areaStatus, setAreaStatus] = useState(() =>
+    readStoredArea() ? "loading" : "locating",
+  );
+  const [areaQuery, setAreaQuery] = useState(null);
+  const [pollTick, setPollTick] = useState(0);
+  const [zipInput, setZipInput] = useState("");
+  const [zipError, setZipError] = useState("");
+  const [areaError, setAreaError] = useState("");
+  const [rescue, setRescue] = useState(null);
+  const [rescueError, setRescueError] = useState("");
+  const [contactsRefresh, setContactsRefresh] = useState(0);
+  const areaStartedAt = useRef(0);
+  const areaLookupId = useRef(0);
+  const contactsLookupId = useRef(-1);
   const geolocationRequest = useRef(0);
 
-  const locate = () => {
-    setManualSearch({ status: "idle" });
-    const requestId = ++geolocationRequest.current;
-    if (!("geolocation" in navigator)) {
-      setGeo({ status: "unsupported", region: FALLBACK });
-      return;
+  const startAreaLookup = (query) => {
+    areaLookupId.current += 1;
+    areaStartedAt.current = Date.now();
+    setAreaQuery(query);
+    setPollTick(0);
+    setAreaStatus("loading");
+    setAreaError("");
+    setZipError("");
+    setRescue(null);
+    setRescueError("");
+  };
+
+  useEffect(() => {
+    const savedArea = readStoredArea();
+    if (savedArea) {
+      startAreaLookup({ zip: savedArea.zip });
+      return undefined;
+    }
+    if (!navigator.geolocation) {
+      setAreaStatus("zip");
+      return undefined;
     }
 
-    setGeo({ status: "asking", region: FALLBACK });
-    const handleError = () => {
+    setAreaStatus("locating");
+    const requestId = ++geolocationRequest.current;
+    const useZip = () => {
       if (requestId === geolocationRequest.current) {
-        setGeo({ status: "denied", region: FALLBACK });
+        setAreaStatus("zip");
+        setAreaError("We couldn't use your location. Enter a ZIP code instead.");
       }
     };
-
     try {
       navigator.geolocation.getCurrentPosition(
         ({ coords }) => {
           if (requestId !== geolocationRequest.current) return;
-          const location = { lat: coords.latitude, lng: coords.longitude };
-          if (
-            !Number.isFinite(location.lat) ||
-            !Number.isFinite(location.lng) ||
-            location.lat < -90 ||
-            location.lat > 90 ||
-            location.lng < -180 ||
-            location.lng > 180
-          ) {
-            handleError();
+          if (!Number.isFinite(coords.latitude) || !Number.isFinite(coords.longitude)) {
+            useZip();
             return;
           }
-
-          let storageError = false;
-          try {
-            localStorage.setItem(
-              "sunhacks_location",
-              JSON.stringify({ ...location, city: "" })
-            );
-          } catch {
-            storageError = true;
-          }
-
-          setGeo({
-            status: "ok",
-            region: regionFor(location),
-            storageError,
-          });
+          startAreaLookup({ lat: coords.latitude, lng: coords.longitude });
         },
-        handleError,
-        { timeout: 10000, maximumAge: 300000 }
+        useZip,
+        { timeout: 10000, maximumAge: 300000 },
       );
     } catch {
-      handleError();
+      useZip();
     }
-  };
-
-  const searchLocation = (event) => {
-    event.preventDefault();
-    geolocationRequest.current += 1;
-    setGeo((current) =>
-      current.status === "asking" ? { status: "idle", region: FALLBACK } : current
-    );
-    const query = manualQuery.trim();
-    if (!query) {
-      setManualSearch({ status: "empty" });
-      return;
-    }
-
-    if (TEMPE_WELFARE_RESOURCE.searchTerms.includes(query.toLowerCase())) {
-      let storageError = false;
-      try {
-        localStorage.setItem(
-          "sunhacks_location",
-          JSON.stringify({ city: TEMPE_WELFARE_RESOURCE.city })
-        );
-      } catch {
-        storageError = true;
-      }
-      setManualSearch({ status: "tempe", storageError });
-      return;
-    }
-
-    let storageError = false;
-    try {
-      localStorage.removeItem("sunhacks_location");
-    } catch {
-      storageError = true;
-    }
-    setManualSearch({ status: "unsupported", query, storageError });
-  };
-
-  // Rotate fun facts every 5s
-  useEffect(() => {
-    const id = setInterval(() => setFactIdx((i) => (i + 1) % FUN_FACTS.length), 5000);
-    return () => clearInterval(id);
+    return () => {
+      geolocationRequest.current += 1;
+    };
   }, []);
 
-  const photos = [...PETS, ...PETS]; // doubled so the CSS marquee loops seamlessly
-  const tempeRegion = REGIONS.find((region) =>
-    region.name.split(" / ").includes(TEMPE_WELFARE_RESOURCE.city)
-  )?.name;
-  const contactsRegion =
-    manualSearch.status === "tempe"
-      ? tempeRegion ?? FALLBACK
-      : manualSearch.status === "unsupported"
-        ? FALLBACK
-        : geo.region;
+  useEffect(() => {
+    if (!areaQuery) return undefined;
+    let active = true;
+    const query = new URLSearchParams(
+      Object.entries(areaQuery).map(([key, value]) => [key, String(value)]),
+    );
+    get(`/area?${query}`)
+      .then((data) => {
+        if (!active) return;
+        setArea(data);
+        const timedOut =
+          data.status === "loading" &&
+          Date.now() - areaStartedAt.current >= 180000;
+        setAreaStatus(timedOut ? "timeout" : data.status);
+        if (contactsLookupId.current !== areaLookupId.current) {
+          contactsLookupId.current = areaLookupId.current;
+          setContactsRefresh((current) => current + 1);
+        }
+        try {
+          const savedArea = {
+            zip: data.zip,
+            city: data.city,
+            state: data.state,
+            lat: data.lat,
+            lng: data.lng,
+          };
+          localStorage.setItem("pawpatrolArea", JSON.stringify(savedArea));
+        } catch {
+          setAreaError("Location found, but it couldn't be saved in this browser.");
+        }
+      })
+      .catch((error) => {
+        if (!active) return;
+        setAreaError(error.message);
+        setAreaStatus("zip");
+      });
+    return () => {
+      active = false;
+    };
+  }, [areaQuery, pollTick]);
+
+  useEffect(() => {
+    if (areaStatus !== "loading") return undefined;
+    const interval = setInterval(() => {
+      if (Date.now() - areaStartedAt.current >= 180000) {
+        setAreaStatus("timeout");
+        setAreaError("The search is taking longer than expected. Try another ZIP code.");
+        return;
+      }
+      setPollTick((current) => current + 1);
+    }, 5000);
+    return () => clearInterval(interval);
+  }, [areaStatus]);
+
+  useEffect(() => {
+    let active = true;
+    get("/fun-facts")
+      .then((data) => {
+        if (active && Array.isArray(data)) setFacts(data);
+      })
+      .catch((error) => {
+        if (active) setFactsError(error.message);
+      });
+    return () => {
+      active = false;
+    };
+  }, []);
+
+  useEffect(() => {
+    if (facts.length === 0) return undefined;
+    const interval = setInterval(
+      () => setFactIdx((current) => (current + 1) % facts.length),
+      5000,
+    );
+    return () => clearInterval(interval);
+  }, [facts.length]);
+
+  useEffect(() => {
+    let active = true;
+    const query = area?.zip ? `?zip=${encodeURIComponent(area.zip)}` : "";
+    get(`/marquee${query}`)
+      .then((data) => {
+        if (active) {
+          setLivePhotos(
+            Array.isArray(data)
+              ? data.filter((photo) => typeof photo.src === "string" && photo.src)
+              : [],
+          );
+        }
+      })
+      .catch(() => {
+        if (active) setLivePhotos([]);
+      });
+    return () => {
+      active = false;
+    };
+  }, [area?.zip]);
+
+  useEffect(() => {
+    const lat = Number(area?.lat);
+    const lng = Number(area?.lng);
+    if (area?.lat == null || area?.lng == null || !Number.isFinite(lat) || !Number.isFinite(lng)) {
+      return undefined;
+    }
+    let active = true;
+    get(`/rescue-contacts?lat=${encodeURIComponent(lat)}&lng=${encodeURIComponent(lng)}`)
+      .then((data) => {
+        if (active) {
+          setRescue(data);
+          setRescueError("");
+        }
+      })
+      .catch((error) => {
+        if (active) setRescueError(error.message);
+      });
+    return () => {
+      active = false;
+    };
+  }, [area?.lat, area?.lng, contactsRefresh]);
+
+  const submitZip = (event) => {
+    event.preventDefault();
+    const zip = zipInput.trim();
+    if (!/^\d{5}$/.test(zip)) {
+      setZipError("Enter a 5-digit ZIP code.");
+      return;
+    }
+    geolocationRequest.current += 1;
+    startAreaLookup({ zip });
+  };
+
+  const photos = livePhotos.length >= 4
+    ? [...livePhotos, ...FALLBACK_PHOTOS]
+    : FALLBACK_PHOTOS;
+  const marqueePhotos = [...photos, ...photos];
+  const showZipBox = !["locating", "loading"].includes(areaStatus);
 
   return (
     <div className="dash">
       <Header showProfile={false} />
 
-      {/* ---- Hero: slideshow + fun facts side by side (Pusheen two-panel layout) ---- */}
       <main className="dash-main">
         <section className="dash-panel dash-marquee" aria-label="Pets looking for homes">
           <div className="marquee-track">
-            {photos.map((p, i) => (
-              <img key={i} src={p.src} alt={p.alt} loading="lazy" />
+            {marqueePhotos.map((photo, index) => (
+              <img key={`${photo.src}-${index}`} src={photo.src} alt={photo.alt || ""} loading="lazy" onError={hideBrokenImage} />
             ))}
           </div>
         </section>
 
         <aside className="dash-panel dash-facts">
           <p className="facts-kicker">Did you know?</p>
-          <p className="fact" key={factIdx}>{FUN_FACTS[factIdx]}</p>
+          <p className="fact" key={factIdx}>
+            {facts.length > 0 ? facts[factIdx] : factsError || "Loading fun facts…"}
+          </p>
           <div className="fact-dots" aria-hidden>
-            {FUN_FACTS.map((_, i) => (
-              <button key={i} className={i === factIdx ? "on" : ""} onClick={() => setFactIdx(i)} />
+            {facts.map((_, index) => (
+              <button key={index} className={index === factIdx ? "on" : ""} onClick={() => setFactIdx(index)} />
             ))}
           </div>
         </aside>
       </main>
 
-      {/* ---- Footer: stray-rescue contacts, then the cartoon crowd image ---- */}
       <footer className="dash-foot">
         <div className="foot-rescue">
           <h2>Found a stray? Who to call</h2>
           <div className="loc">
-            {manualSearch.status === "tempe" && <>Numbers for <strong>{TEMPE_WELFARE_RESOURCE.city}</strong></>}
-            {manualSearch.status === "unsupported" && <>We don't have verified local welfare contacts for "{manualSearch.query}". Showing general contacts.</>}
-            {!["tempe", "unsupported"].includes(manualSearch.status) && geo.status === "asking" && (
-              <HamsterLoader size={72} label="Finding your location…" />
+            {["locating", "loading"].includes(areaStatus) && (
+              <HamsterLoader size={140} label="Finding shelters near you…" />
             )}
-            {!["tempe", "unsupported"].includes(manualSearch.status) && geo.status === "ok" && <>Numbers for <strong>{geo.region}</strong></>}
-            {!["tempe", "unsupported"].includes(manualSearch.status) && geo.status === "ok" && geo.storageError && "Location found, but couldn't be saved for the assistant."}
-            {!["tempe", "unsupported"].includes(manualSearch.status) && geo.status === "denied" && "We couldn't use your location. Showing general contacts."}
-            {!["tempe", "unsupported"].includes(manualSearch.status) && geo.status === "unsupported" && "Location isn't available in this browser. Showing general contacts."}
-            {!["tempe", "unsupported"].includes(manualSearch.status) && geo.status === "idle" && "Use your location to find nearby animal welfare contacts."}
-            {geo.status !== "asking" && (
-              <button type="button" className="loc-btn" onClick={locate}>
-                {geo.status === "ok" ? "Update location" : "Use my location"}
-              </button>
+            {areaStatus === "ready" && area && (
+              <p>Pets near <strong>{area.city}, {area.state}</strong></p>
             )}
+            {["empty", "limit"].includes(areaStatus) && (
+              <p>Nothing was found for this area yet. Try another ZIP code.</p>
+            )}
+            {areaStatus === "timeout" && <p>{areaError}</p>}
+            {areaStatus === "zip" && areaError && <p role="alert">{areaError}</p>}
+            {areaError && areaStatus === "ready" && <p role="alert">{areaError}</p>}
           </div>
-          <form className="welfare-search" onSubmit={searchLocation}>
-            <label htmlFor="welfare-location">City or ZIP</label>
-            <div className="welfare-search-controls">
-              <input
-                id="welfare-location"
-                type="search"
-                value={manualQuery}
-                onChange={(event) => setManualQuery(event.target.value)}
-                autoComplete="postal-code"
-              />
-              <button type="submit">Search</button>
-            </div>
-          </form>
-          {manualSearch.status === "empty" && (
-            <p className="welfare-search-status" role="status">
-              Enter a city or ZIP code to search.
-            </p>
-          )}
-          {manualSearch.status === "unsupported" && manualSearch.storageError && (
-            <p className="welfare-search-status" role="status">
-              We couldn't update the saved location for the assistant.
-            </p>
-          )}
-          {manualSearch.status === "tempe" && (
-            <section className="tempe-welfare" aria-labelledby="tempe-welfare-name">
-              {TEMPE_WELFARE_RESOURCE.verified && (
-                <p className="verified-source">Verified official source</p>
-              )}
-              <h3 id="tempe-welfare-name">{TEMPE_WELFARE_RESOURCE.name}</h3>
-              <address>{TEMPE_WELFARE_RESOURCE.address.split("\n").map((line) => (
-                <span key={line}>{line}<br /></span>
-              ))}</address>
-              <p>
-                {TEMPE_WELFARE_RESOURCE.hotline.label}:{" "}
-                <a href={`tel:${TEMPE_WELFARE_RESOURCE.hotline.phone.replace(/\D/g, "")}`}>
-                  {TEMPE_WELFARE_RESOURCE.hotline.phone}
-                </a>
-              </p>
-              <p>
-                Email: <a href={`mailto:${TEMPE_WELFARE_RESOURCE.email}`}>
-                  {TEMPE_WELFARE_RESOURCE.email}
-                </a>
-              </p>
-              <p>
-                Official webpage:{" "}
-                <a href={TEMPE_WELFARE_RESOURCE.website} target="_blank" rel="noopener noreferrer">
-                  City of Tempe Office of Animal Welfare
-                </a>
-              </p>
-              <div className="tempe-311">
-                <strong>{TEMPE_WELFARE_RESOURCE.timeSensitiveContact.name}</strong>
-                <span>{TEMPE_WELFARE_RESOURCE.timeSensitiveContact.description}</span>
-                <a href={`tel:${TEMPE_WELFARE_RESOURCE.timeSensitiveContact.phone.replace(/\D/g, "")}`}>
-                  {TEMPE_WELFARE_RESOURCE.timeSensitiveContact.phone}
-                </a>
+
+          {showZipBox && (
+            <form className="welfare-search" onSubmit={submitZip}>
+              <label htmlFor="area-zip">5-digit ZIP code</label>
+              <div className="welfare-search-controls">
+                <input
+                  id="area-zip"
+                  type="text"
+                  inputMode="numeric"
+                  maxLength="5"
+                  value={zipInput}
+                  onChange={(event) => setZipInput(event.target.value)}
+                  autoComplete="postal-code"
+                />
+                <button type="submit">Search</button>
               </div>
-              <p className="service-limitation">{TEMPE_WELFARE_RESOURCE.serviceLimitation}</p>
-              {manualSearch.storageError && (
-                <p className="welfare-search-status" role="status">
-                  Tempe information is shown, but the location couldn't be saved for the assistant.
-                </p>
-              )}
-            </section>
+              {zipError && <p className="welfare-search-status" role="alert">{zipError}</p>}
+            </form>
           )}
-          <ul>
-            {RESCUE_CONTACTS[contactsRegion].map((c) => (
-              <li key={c.who}>
-                <span className="who">{c.who}</span>
-                <a className="phone" href={`tel:${c.phone.replace(/\D/g, "")}`}>
-                  {c.phone}{c.ext ? ` ${c.ext}` : ""}
-                </a>
-              </li>
-            ))}
-          </ul>
+
+          {rescueError && <p role="alert">{rescueError}</p>}
+          {rescue ? (
+            <>
+              <p>Rescue contacts for <strong>{rescue.region}</strong></p>
+              {rescue.contacts.length > 0 ? (
+                <ul>
+                  {rescue.contacts.map((contact) => (
+                    <li key={`${contact.who}-${contact.phone}`}>
+                      <span className="who">{contact.who}</span>
+                      <a className="phone" href={`tel:${contact.phone.replace(/\D/g, "")}`}>
+                        {contact.phone}{contact.ext ? ` ${contact.ext}` : ""}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              ) : (
+                <p>No rescue contacts are listed for this area.</p>
+              )}
+            </>
+          ) : !rescueError ? (
+            <p>Share your location or enter a ZIP code to find rescue contacts.</p>
+          ) : null}
           <p className="foot-note">If an animal is in immediate danger, call 911.</p>
         </div>
         <FooterStrip />

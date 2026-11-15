@@ -1,18 +1,44 @@
-// Thin client for the FastAPI backend. In dev, Vite proxies /api -> :8000.
+import { getUser } from "./auth.js";
+import { getShelter } from "./shelterAuth.js";
+
 const BASE = import.meta.env.VITE_API_URL ?? "/api";
 
-export async function recordChoice(role, taps) {
-  const res = await fetch(`${BASE}/choices`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ role, taps }),
+export async function api(path, { method = "GET", body, auth } = {}) {
+  const headers = { "Content-Type": "application/json" };
+  if (auth === "user" || auth === "shelter") {
+    const token =
+      auth === "user" ? getUser()?.token : getShelter()?.token;
+    if (token) headers.Authorization = `Bearer ${token}`;
+  }
+
+  const response = await fetch(`${BASE}${path}`, {
+    method,
+    headers,
+    ...(body !== undefined ? { body: JSON.stringify(body) } : {}),
   });
-  if (!res.ok) throw new Error(`API ${res.status}`);
-  return res.json();
+  const data = await response.json();
+  if (!response.ok) {
+    throw new Error(
+      typeof data?.detail === "string"
+        ? data.detail
+        : `Request failed (${response.status})`,
+    );
+  }
+  return data;
 }
 
-export async function getStats() {
-  const res = await fetch(`${BASE}/stats`);
-  if (!res.ok) throw new Error(`API ${res.status}`);
-  return res.json();
+export function get(path, auth) {
+  return api(path, { method: "GET", auth });
+}
+
+export function post(path, body, auth) {
+  return api(path, { method: "POST", body, auth });
+}
+
+export function recordChoice(role, taps) {
+  return post("/choices", { role, taps });
+}
+
+export function getStats() {
+  return get("/stats");
 }

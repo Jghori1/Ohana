@@ -18,15 +18,6 @@
     "shelters": 0
   },
   {
-    "id": "85282",
-    "zip": "85282",
-    "status": "ready",
-    "startedAt": null,
-    "finishedAt": null,
-    "pets": 14,
-    "shelters": 6
-  },
-  {
     "id": "85004",
     "zip": "85004",
     "status": "ready",
@@ -34,6 +25,15 @@
     "finishedAt": "2026-11-15T09:08:20.325302+00:00",
     "pets": 21,
     "shelters": 5
+  },
+  {
+    "id": "85282",
+    "zip": "85282",
+    "status": "ready",
+    "startedAt": null,
+    "finishedAt": null,
+    "pets": 14,
+    "shelters": 6
   },
   {
     "id": "85281",

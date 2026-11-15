@@ -1,12 +1,34 @@
 import { useEffect, useMemo, useState } from "react";
+import { get, post } from "./api.js";
 import Header from "./components/Header.jsx";
 import FooterStrip from "./components/FooterStrip.jsx";
 import HamsterLoader from "./components/HamsterLoader.jsx";
+import ShelterDetail from "./components/ShelterDetail.jsx";
 import "./dashboard.css";
 import "./adopt.css";
 import "./donate.css";
 
-const BASE = import.meta.env?.VITE_API_URL ?? "/api";
+function zipQuery() {
+  try {
+    const stored = localStorage.getItem("pawpatrolArea");
+    if (!stored) return "";
+    let area;
+    try {
+      area = JSON.parse(stored);
+    } catch {
+      area = stored;
+    }
+    const zip = typeof area === "object" && area ? area.zip : area;
+    const value = zip == null ? "" : String(zip);
+    return /^\d{5}$/.test(value) ? `?zip=${encodeURIComponent(value)}` : "";
+  } catch {
+    return "";
+  }
+}
+
+const hideBrokenImage = (event) => {
+  event.currentTarget.style.visibility = "hidden";
+};
 
 function safeWebsite(value) {
   if (typeof value !== "string") return null;
@@ -24,44 +46,38 @@ export default function Donate() {
   const [causes, setCauses] = useState([]);
   const [shelters, setShelters] = useState([]);
   const [filters, setFilters] = useState({ city: "", urgency: "" });
+  const [filterOptions, setFilterOptions] = useState({ city: [], urgency: [] });
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(false);
+  const [error, setError] = useState("");
   const [reload, setReload] = useState(0);
+  const [amounts, setAmounts] = useState({});
+  const [activityErrors, setActivityErrors] = useState({});
+  const [submitting, setSubmitting] = useState(null);
+  const [open, setOpen] = useState(null);
 
   useEffect(() => {
-    const controller = new AbortController();
     let active = true;
 
     async function loadDonationData() {
       setLoading(true);
-      setError(false);
+      setError("");
+      const query = zipQuery();
       try {
-        const [causesResponse, sheltersResponse] = await Promise.all([
-          fetch(`${BASE}/causes`, { signal: controller.signal }),
-          fetch(`${BASE}/shelters`, { signal: controller.signal }),
+        const [causesResponse, sheltersResponse, filtersResponse] = await Promise.all([
+          get(`/causes${query}`),
+          get(`/shelters${query}`),
+          get("/filters/causes"),
         ]);
-        if (!causesResponse.ok || !sheltersResponse.ok) {
-          throw new Error("Donation information request failed.");
-        }
-
-        const [causeData, shelterData] = await Promise.all([
-          causesResponse.json(),
-          sheltersResponse.json(),
-        ]);
-        if (!Array.isArray(causeData) || !Array.isArray(shelterData)) {
-          throw new Error("Donation information response was invalid.");
-        }
-
         if (active) {
-          setCauses(causeData);
-          setShelters(shelterData);
+          setCauses(causesResponse);
+          setShelters(sheltersResponse);
+          setFilterOptions({
+            city: filtersResponse.city ?? [],
+            urgency: filtersResponse.urgency ?? [],
+          });
         }
       } catch (requestError) {
-        if (active && requestError.name !== "AbortError") {
-          setCauses([]);
-          setShelters([]);
-          setError(true);
-        }
+        if (active) setError(requestError.message);
       } finally {
         if (active) setLoading(false);
       }
@@ -70,7 +86,6 @@ export default function Donate() {
     void loadDonationData();
     return () => {
       active = false;
-      controller.abort();
     };
   }, [reload]);
 
@@ -95,6 +110,9 @@ export default function Donate() {
           : [],
         image: cause.src || shelter?.avatar || "",
         website: safeWebsite(shelter?.website),
+        shelterRecord: shelter
+          ? { ...shelter, website: safeWebsite(shelter.website) || "" }
+          : null,
       };
     });
     const needsCards = shelters.flatMap((shelter) => {
@@ -117,35 +135,51 @@ export default function Donate() {
           items,
           image: shelter.avatar || "",
           website: safeWebsite(shelter.website),
+          shelterRecord: { ...shelter, website: safeWebsite(shelter.website) || "" },
         },
       ];
     });
     return [...campaignCards, ...needsCards];
   }, [causes, shelters, sheltersById]);
 
-  const cityOptions = useMemo(
-    () =>
-      [
-        ...new Set([
-          ...shelters.map((shelter) => shelter.city),
-          ...causes.map((cause) => cause.city),
-        ].filter(Boolean)),
-      ].sort((a, b) => a.localeCompare(b)),
-    [causes, shelters],
-  );
-  const urgencyOptions = useMemo(
-    () =>
-      [...new Set(causes.map((cause) => cause.urgency).filter(Boolean))].sort(
-        (a, b) => a.localeCompare(b),
-      ),
-    [causes],
-  );
+  const cityOptions = filterOptions.city;
+  const urgencyOptions = filterOptions.urgency;
   const filteredCards = cards.filter(
     (card) =>
       (!filters.city || card.city === filters.city) &&
       (!filters.urgency || card.urgency === filters.urgency),
   );
   const hasFilters = Boolean(filters.city || filters.urgency);
+
+  const give = async (card) => {
+    const amount = Number(amounts[card.id]);
+    if (!Number.isFinite(amount) || amount <= 0) {
+      setActivityErrors((current) => ({ ...current, [card.id]: "Enter an amount above 0." }));
+      return;
+    }
+    if (!card.shelterRecord) {
+      setActivityErrors((current) => ({ ...current, [card.id]: "Shelter details are unavailable." }));
+      return;
+    }
+
+    setSubmitting(card.id);
+    setActivityErrors((current) => ({ ...current, [card.id]: "" }));
+    try {
+      await post("/me/activity", {
+        type: "donation",
+        amount,
+        note: card.title,
+      }, "user");
+      setOpen({
+        shelter: card.shelterRecord,
+        headline: `Thank you for supporting ${card.shelterRecord.name}!`,
+      });
+    } catch (requestError) {
+      setActivityErrors((current) => ({ ...current, [card.id]: requestError.message }));
+    } finally {
+      setSubmitting(null);
+    }
+  };
 
   return (
     <div className="dash">
@@ -219,8 +253,7 @@ export default function Donate() {
           {error && (
             <div className="donation-error" role="alert">
               <p>
-                We couldn&apos;t load current donation information. Please try
-                again.
+                {error || "We couldn't load current donation information. Please try again."}
               </p>
               <button
                 type="button"
@@ -260,6 +293,7 @@ export default function Donate() {
                         src={card.image}
                         alt={card.title}
                         loading="lazy"
+                        onError={hideBrokenImage}
                       />
                     )}
                     <div className="donation-card-content">
@@ -300,19 +334,32 @@ export default function Donate() {
                         </>
                       )}
                       {card.website ? (
-                        <a
-                          className="meet donation-link"
-                          href={card.website}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                        >
-                          Donate on the shelter&apos;s website ↗
-                        </a>
+                        <>
+                          <input
+                            type="number"
+                            min="1"
+                            step="1"
+                            value={amounts[card.id] ?? ""}
+                            onChange={(event) => setAmounts((current) => ({ ...current, [card.id]: event.target.value }))}
+                            aria-label={`Donation amount for ${card.title}`}
+                            placeholder="Amount"
+                            style={{ width: "6rem", marginRight: "8px" }}
+                          />
+                          <button
+                            type="button"
+                            className="meet donation-link"
+                            onClick={() => give(card)}
+                            disabled={submitting === card.id}
+                          >
+                            Give
+                          </button>
+                        </>
                       ) : (
                         <p className="donation-website-missing">
                           Shelter website not provided.
                         </p>
                       )}
+                      {activityErrors[card.id] && <p role="alert">{activityErrors[card.id]}</p>}
                     </div>
                   </article>
                 ))
@@ -321,6 +368,15 @@ export default function Donate() {
           )}
         </section>
       </main>
+
+      {open && (
+        <ShelterDetail
+          shelter={open.shelter}
+          headline={open.headline}
+          cta="Donate on the shelter's website"
+          onClose={() => setOpen(null)}
+        />
+      )}
 
       <FooterStrip />
     </div>

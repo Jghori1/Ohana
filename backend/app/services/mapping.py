@@ -43,6 +43,85 @@ _SHELTER_ANIMALS = {
     "Rabbit": "Small animals",
     "Other": "Small animals",
 }
+_MULTI_LABEL_PUBLIC_SUFFIXES = {
+    "ac.uk",
+    "co.in",
+    "co.jp",
+    "co.nz",
+    "co.uk",
+    "com.au",
+    "com.br",
+    "com.cn",
+    "com.hk",
+    "com.mx",
+    "com.sg",
+    "com.tr",
+    "com.tw",
+    "com.ua",
+    "com.za",
+    "edu.au",
+    "gov.au",
+    "gov.uk",
+    "net.au",
+    "net.nz",
+    "net.uk",
+    "org.au",
+    "org.nz",
+    "org.uk",
+}
+_STATE_CODES = {
+    "alabama": "AL",
+    "alaska": "AK",
+    "arizona": "AZ",
+    "arkansas": "AR",
+    "california": "CA",
+    "colorado": "CO",
+    "connecticut": "CT",
+    "delaware": "DE",
+    "district of columbia": "DC",
+    "florida": "FL",
+    "georgia": "GA",
+    "hawaii": "HI",
+    "idaho": "ID",
+    "illinois": "IL",
+    "indiana": "IN",
+    "iowa": "IA",
+    "kansas": "KS",
+    "kentucky": "KY",
+    "louisiana": "LA",
+    "maine": "ME",
+    "maryland": "MD",
+    "massachusetts": "MA",
+    "michigan": "MI",
+    "minnesota": "MN",
+    "mississippi": "MS",
+    "missouri": "MO",
+    "montana": "MT",
+    "nebraska": "NE",
+    "nevada": "NV",
+    "new hampshire": "NH",
+    "new jersey": "NJ",
+    "new mexico": "NM",
+    "new york": "NY",
+    "north carolina": "NC",
+    "north dakota": "ND",
+    "ohio": "OH",
+    "oklahoma": "OK",
+    "oregon": "OR",
+    "pennsylvania": "PA",
+    "rhode island": "RI",
+    "south carolina": "SC",
+    "south dakota": "SD",
+    "tennessee": "TN",
+    "texas": "TX",
+    "utah": "UT",
+    "vermont": "VT",
+    "virginia": "VA",
+    "washington": "WA",
+    "west virginia": "WV",
+    "wisconsin": "WI",
+    "wyoming": "WY",
+}
 
 
 def _clean_text(value: Any) -> str | None:
@@ -57,6 +136,62 @@ def _clean_text(value: Any) -> str | None:
 def _stable_id(prefix: str, *parts: str) -> str:
     digest = hashlib.sha256("\x1f".join(parts).encode("utf-8")).hexdigest()[:12]
     return f"{prefix}_{digest}"
+
+
+def registrable_domain(value: Any) -> str | None:
+    if not isinstance(value, str) or not value.strip():
+        return None
+    try:
+        candidate = value.strip()
+        if "://" not in candidate and ":" in candidate.split("/", 1)[0]:
+            return None
+        parsed = urlsplit(candidate if "://" in candidate else f"//{candidate}")
+        hostname = parsed.hostname
+        _ = parsed.port
+    except ValueError:
+        return None
+    if not hostname:
+        return None
+    labels = hostname.casefold().rstrip(".").split(".")
+    if len(labels) < 2:
+        return hostname.casefold().rstrip(".")
+    public_suffix = ".".join(labels[-2:])
+    label_count = 3 if public_suffix in _MULTI_LABEL_PUBLIC_SUFFIXES else 2
+    return ".".join(labels[-label_count:])
+
+
+def shelter_id_for_site(site_url: Any) -> str:
+    domain = registrable_domain(site_url)
+    identity = domain or (
+        site_url.strip().casefold() if isinstance(site_url, str) else ""
+    )
+    return _stable_id("shelter", identity)
+
+
+def shelter_matches_state(shelter: Mapping[str, Any], state: Any) -> bool:
+    cleaned_state = _clean_text(state)
+    if cleaned_state is None:
+        return False
+
+    state_name = cleaned_state
+    state_code = _STATE_CODES.get(cleaned_state.casefold())
+    if state_code is None:
+        reverse_codes = {code.casefold(): name for name, code in _STATE_CODES.items()}
+        state_name = reverse_codes.get(cleaned_state.casefold(), cleaned_state)
+        if re.fullmatch(r"[a-z]{2}", cleaned_state, re.IGNORECASE):
+            state_code = cleaned_state.upper()
+
+    fields = " ".join(
+        value
+        for field in ("address", "city")
+        if (value := _clean_text(shelter.get(field))) is not None
+    )
+    if re.search(rf"\b{re.escape(state_name)}\b", fields, re.IGNORECASE):
+        return True
+    return bool(
+        state_code
+        and re.search(rf"\b{re.escape(state_code)}\b", fields, re.IGNORECASE)
+    )
 
 
 def _valid_http_url(value: Any) -> str | None:
@@ -169,8 +304,11 @@ def map_agent_result(
     area: str,
     existing_shelters: Mapping[str, Mapping[str, Any]] | None = None,
 ) -> tuple[dict[str, Any], list[dict[str, Any]], dict[str, int]]:
-    shelter_id = _stable_id("shelter", site_url)
+    shelter_id = shelter_id_for_site(site_url)
     name = _clean_text(answer.get("shelter_name"))
+    if name is None:
+        return {"id": shelter_id, "name": ""}, [], {"missing shelter name": 1}
+
     address = _clean_text(answer.get("address"))
     city = _clean_text(answer.get("city"))
     description = _clean_text(answer.get("description"))

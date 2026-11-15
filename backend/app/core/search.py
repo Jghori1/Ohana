@@ -71,6 +71,9 @@ def search_pets(
     query = _normalized(q)
     zip_value = _normalized(zip)
     pets = store.list("pets")
+    zip_has_pets = bool(
+        zip_value and any(_normalized(pet.get("area")) == zip_value for pet in pets)
+    )
 
     shelters_by_id: dict[str, list[dict[str, Any]]] = {}
     if city_value:
@@ -80,6 +83,7 @@ def search_pets(
                 shelters_by_id.setdefault(shelter_id_value, []).append(shelter)
 
     matching: list[dict[str, Any]] = []
+    seen_pet_ids: set[str] = set()
     for pet in pets:
         if not _matches_choice(pet.get("species"), species_values):
             continue
@@ -95,7 +99,7 @@ def search_pets(
             continue
 
         area = pet.get("area")
-        if zip_value and _normalized(area) and _normalized(area) != zip_value:
+        if zip_has_pets and _normalized(area) and _normalized(area) != zip_value:
             continue
 
         if query:
@@ -118,6 +122,11 @@ def search_pets(
             if query not in searchable:
                 continue
 
+        pet_id = pet.get("id")
+        if isinstance(pet_id, str) and pet_id in seen_pet_ids:
+            continue
         matching.append(pet_object(pet))
+        if isinstance(pet_id, str):
+            seen_pet_ids.add(pet_id)
 
     return matching

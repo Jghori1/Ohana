@@ -1,55 +1,86 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { useShelter, updateShelter, getShelter } from "./shelterAuth.js";
-import { SHELTERS, CAUSES, PETS } from "./data/pets.js";
+import { setShelter as setShelterSession, useShelter } from "./shelterAuth.js";
+import { api, get, post } from "./api.js";
 import ShelterHeader from "./components/ShelterHeader.jsx";
 import Header from "./components/Header.jsx";
 import FooterStrip from "./components/FooterStrip.jsx";
+import HamsterLoader from "./components/HamsterLoader.jsx";
 import "./dashboard.css";
 import "./profile.css";
 import "./donate.css";
 import "./shelterdash.css";
+
+const hideBrokenImage = (event) => {
+  event.currentTarget.style.visibility = "hidden";
+};
 
 /**
  * Shelter page. Two uses:
  *  - the signed-in shelter's own page (editable): <ShelterDashboard />
  *  - a public, read-only view for individuals: <ShelterPublic /> (route /shelters/:id)
  */
-export function ShelterPage({ shelter, readOnly, header, onChange }) {
+export function ShelterPage({
+  shelter,
+  readOnly,
+  header,
+  onChange,
+  onAddRequest,
+  onDeleteRequest,
+  onAddPhoto,
+  onDeletePhoto,
+  onError,
+  error,
+}) {
   const [draft, setDraft] = useState({ title: "", amount: "", note: "" });
   const [editingMission, setEditingMission] = useState(false);
   const [missionDraft, setMissionDraft] = useState(shelter.mission || "");
 
+  useEffect(() => {
+    setMissionDraft(shelter.mission || "");
+  }, [shelter.mission]);
+
   const mapSrc = `https://www.google.com/maps?q=${encodeURIComponent(shelter.address)}&output=embed`;
   const mapLink = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(shelter.address)}`;
 
-  const addRequest = (e) => {
+  const addRequest = async (e) => {
     e.preventDefault();
     if (!draft.title.trim() || !Number(draft.amount)) return;
-    const req = { id: Date.now(), title: draft.title.trim(), amount: Number(draft.amount), raised: 0, note: draft.note.trim() };
-    onChange({ requests: [req, ...shelter.requests] });
-    setDraft({ title: "", amount: "", note: "" });
-  };
-  const removeRequest = (id) => onChange({ requests: shelter.requests.filter((r) => r.id !== id) });
-
-  // Photos are kept as data URLs in the session for the demo; a real build would upload to S3.
-  const addPhotos = (e) => {
-    const files = Array.from(e.target.files || []).slice(0, 12);
-    files.forEach((file) => {
-      const reader = new FileReader();
-      reader.onload = () => onChange({ photos: [{ id: Date.now() + Math.random(), src: reader.result, name: file.name }, ...getShelter().photos] });
-      reader.readAsDataURL(file);
+    const saved = await onAddRequest({
+      title: draft.title.trim(),
+      amount: Number(draft.amount),
+      note: draft.note.trim(),
     });
-    e.target.value = "";
+    if (saved) setDraft({ title: "", amount: "", note: "" });
   };
-  const removePhoto = (id) => onChange({ photos: shelter.photos.filter((p) => p.id !== id) });
-  const saveMission = () => { onChange({ mission: missionDraft.trim() }); setEditingMission(false); };
+
+  const addPhotos = async (e) => {
+    const files = Array.from(e.target.files || []).slice(0, 12);
+    e.target.value = "";
+    try {
+      for (const file of files) {
+        const reader = new FileReader();
+        const data = await new Promise((resolve, reject) => {
+          reader.onload = () => resolve(reader.result);
+          reader.onerror = () => reject(reader.error || new Error("Could not read the selected photo."));
+          reader.readAsDataURL(file);
+        });
+        if (typeof data !== "string" || !(await onAddPhoto({ name: file.name, data }))) break;
+      }
+    } catch (uploadError) {
+      onError(uploadError.message);
+    }
+  };
+  const saveMission = async () => {
+    if (await onChange({ mission: missionDraft.trim() })) setEditingMission(false);
+  };
 
   return (
     <div className="dash">
       {header}
       <main className="profile shelterdash">
         <h1 className="page-title">{shelter.name}</h1>
+        {error && <p role="alert">{error}</p>}
         <p className="count">
           {shelter.animals.join(" · ")}
           {!readOnly && ` · ${shelter.licenseUploaded ? "License uploaded — pending review" : "No license on file"}`}
@@ -90,7 +121,7 @@ export function ShelterPage({ shelter, readOnly, header, onChange }) {
                 const pct = Math.min(100, Math.round((r.raised / r.amount) * 100));
                 return (
                   <li key={r.id}>
-                    <div className="req-head"><strong>{r.title}</strong>{!readOnly && <button type="button" className="linkish" onClick={() => removeRequest(r.id)}>remove</button>}</div>
+                    <div className="req-head"><strong>{r.title}</strong>{!readOnly && <button type="button" className="linkish" onClick={() => onDeleteRequest(r.id)}>remove</button>}</div>
                     {r.note && <p className="muted">{r.note}</p>}
                     <div className="progress"><div className="bar"><span style={{ width: `${pct}%` }} /></div>
                       <p className="raised">${r.raised.toLocaleString()} of ${r.amount.toLocaleString()} · {pct}%</p></div>
@@ -127,8 +158,8 @@ export function ShelterPage({ shelter, readOnly, header, onChange }) {
             <ul className="gallery">
               {shelter.photos.map((p) => (
                 <li key={p.id}>
-                  <img src={p.src} alt={p.name} />
-                  {!readOnly && <button type="button" className="del" onClick={() => removePhoto(p.id)} aria-label="Remove photo">×</button>}
+                  <img src={p.src} alt={p.name} onError={hideBrokenImage} />
+                  {!readOnly && <button type="button" className="del" onClick={() => onDeletePhoto(p.id)} aria-label="Remove photo">×</button>}
                 </li>
               ))}
             </ul>
@@ -142,20 +173,147 @@ export function ShelterPage({ shelter, readOnly, header, onChange }) {
 
 /** The signed-in shelter's own, editable page */
 export default function ShelterDashboard() {
-  const shelter = useShelter();
-  if (!shelter) return null; // route guard sends visitors to the shelter login
-  return <ShelterPage shelter={shelter} readOnly={false} header={<ShelterHeader />} onChange={updateShelter} />;
+  const cachedShelter = useShelter();
+  const [shelter, setShelter] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
+
+  const updateShelterAccount = (data) => {
+    const account = {
+      ...data,
+      ...(cachedShelter?.token ? { token: cachedShelter.token } : {}),
+    };
+    setShelter(account);
+    setShelterSession(account);
+  };
+
+  useEffect(() => {
+    if (!cachedShelter?.token) {
+      setLoading(false);
+      return undefined;
+    }
+    let active = true;
+    get("/shelter/me", "shelter")
+      .then((data) => {
+        if (!active) return;
+        updateShelterAccount(data);
+      })
+      .catch((requestError) => {
+        if (active) setError(requestError.message);
+      })
+      .finally(() => {
+        if (active) setLoading(false);
+      });
+    return () => {
+      active = false;
+    };
+  }, [cachedShelter?.token]);
+
+  const runMutation = async (request) => {
+    setError("");
+    try {
+      await request();
+      const updated = await get("/shelter/me", "shelter");
+      updateShelterAccount(updated);
+      return true;
+    } catch (requestError) {
+      setError(requestError.message);
+      return false;
+    }
+  };
+
+  const onChange = ({ mission }) =>
+    runMutation(() => api("/shelter/me", {
+      method: "PATCH",
+      body: { mission },
+      auth: "shelter",
+    }));
+  const onAddRequest = (request) =>
+    runMutation(() => post("/shelter/requests", request, "shelter"));
+  const onDeleteRequest = (id) =>
+    runMutation(() => api(`/shelter/requests/${encodeURIComponent(id)}`, {
+      method: "DELETE",
+      auth: "shelter",
+    }));
+  const onAddPhoto = (photo) =>
+    runMutation(() => post("/shelter/photos", photo, "shelter"));
+  const onDeletePhoto = (id) =>
+    runMutation(() => api(`/shelter/photos/${encodeURIComponent(id)}`, {
+      method: "DELETE",
+      auth: "shelter",
+    }));
+
+  if (loading) {
+    return (
+      <div className="dash">
+        <ShelterHeader />
+        <main className="profile"><HamsterLoader size={96} label="Loading…" /></main>
+        <FooterStrip />
+      </div>
+    );
+  }
+  if (!shelter) {
+    return (
+      <div className="dash">
+        <ShelterHeader />
+        <main className="profile">{error && <p role="alert">{error}</p>}</main>
+        <FooterStrip />
+      </div>
+    );
+  }
+  return (
+    <ShelterPage
+      shelter={shelter}
+      readOnly={false}
+      header={<ShelterHeader />}
+      onChange={onChange}
+      onAddRequest={onAddRequest}
+      onDeleteRequest={onDeleteRequest}
+      onAddPhoto={onAddPhoto}
+      onDeletePhoto={onDeletePhoto}
+      onError={setError}
+      error={error}
+    />
+  );
 }
 
 /** Public read-only view of a directory shelter, for individuals (route /shelters/:id) */
 export function ShelterPublic() {
   const { id } = useParams();
-  const s = SHELTERS.find((x) => String(x.id) === String(id));
-  if (!s) return <div className="dash"><Header /><main className="profile"><h1 className="page-title">Shelter not found</h1></main><FooterStrip /></div>;
-  const shelter = {
-    ...s,
-    requests: CAUSES.filter((c) => c.shelter === s.name).map((c) => ({ id: c.id, title: `${c.pet} needs ${c.type.toLowerCase()}`, amount: c.goal, raised: c.raised, note: c.story })),
-    photos: PETS.slice((s.id - 1) % 5, (s.id - 1) % 5 + 3).map((p, i) => ({ id: i, src: p.src, name: p.alt })), // demo gallery
-  };
+  const [shelter, setShelter] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
+
+  useEffect(() => {
+    let active = true;
+    setLoading(true);
+    setError("");
+    get(`/shelters/${encodeURIComponent(id)}`)
+      .then((data) => {
+        if (active) setShelter(data);
+      })
+      .catch((requestError) => {
+        if (active) setError(requestError.message);
+      })
+      .finally(() => {
+        if (active) setLoading(false);
+      });
+    return () => {
+      active = false;
+    };
+  }, [id]);
+
+  if (loading) {
+    return (
+      <div className="dash">
+        <Header />
+        <main className="profile"><HamsterLoader size={96} label="Loading…" /></main>
+        <FooterStrip />
+      </div>
+    );
+  }
+  if (error || !shelter) {
+    return <div className="dash"><Header /><main className="profile"><h1 className="page-title" role={error ? "alert" : undefined}>{error || "Shelter not found"}</h1></main><FooterStrip /></div>;
+  }
   return <ShelterPage shelter={shelter} readOnly header={<Header />} onChange={() => {}} />;
 }

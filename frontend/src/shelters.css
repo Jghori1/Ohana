@@ -1,6 +1,8 @@
 /* Volunteer / Donate shelter directory — builds on adopt.css */
 .shelter-card { padding: 14px; display: flex; flex-direction: column; align-items: center; gap: 10px; text-align: center; }
 .shelter-card img { width: 70%; aspect-ratio: 1; object-fit: contain; background: var(--paper); border-radius: 50%; padding: 10px; box-sizing: border-box; }
+.avatar-frame { width: 70%; aspect-ratio: 1; border-radius: 50%; background: var(--paper); border: 3px dashed var(--plum); box-sizing: border-box; }
+.avatar-frame-large { width: 100%; }
 .shelter-card figcaption { display: flex; flex-direction: column; gap: 2px; font-family: "Nunito", sans-serif; }
 .shelter-card strong { font-size: 1rem; }
 .shelter-card span { font-size: .85rem; color: var(--rose); font-weight: 600; }

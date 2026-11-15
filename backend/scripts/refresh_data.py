@@ -11,8 +11,14 @@ from urllib.parse import urlsplit
 
 from dotenv import load_dotenv
 
-from app.services import rescuegroups, tinyfish
-from app.services.mapping import AGENT_GOAL, map_agent_result
+from app.services import geocode, rescuegroups, tinyfish
+from app.services.mapping import (
+    AGENT_GOAL,
+    map_agent_result,
+    registrable_domain,
+    shelter_id_for_site,
+    shelter_matches_state,
+)
 
 
 _BACKEND_DIR = Path(__file__).resolve().parents[1]
@@ -121,7 +127,10 @@ def _site_candidates(
         if not hostname:
             dropped["invalid site URL"] += 1
             continue
-        domain = hostname.casefold().rstrip(".").removeprefix("www.")
+        domain = registrable_domain(url)
+        if domain is None:
+            dropped["invalid site URL"] += 1
+            continue
         if any(blocked in domain for blocked in _BLOCKED_DOMAINS):
             dropped["excluded site domain"] += 1
             print(f"Skipping {domain}: excluded domain.")
@@ -150,12 +159,67 @@ def _existing_shelters_by_id(
     by_id: dict[str, dict[str, Any]] = {}
     for record in records:
         shelter_id = record.get("id")
-        if isinstance(shelter_id, str) and record.get("area") != area:
-            by_id.setdefault(shelter_id, record)
-    for record in records:
-        shelter_id = record.get("id")
-        if isinstance(shelter_id, str) and record.get("area") == area:
+        domain = (
+            registrable_domain(record.get("website"))
+            if record.get("source") == "tinyfish"
+            else None
+        )
+        if domain:
+            shelter_id = shelter_id_for_site(domain)
+        if not isinstance(shelter_id, str):
+            continue
+        existing = by_id.get(shelter_id)
+        if existing is None:
             by_id[shelter_id] = record
+            continue
+
+        prefer_record = record.get("area") == area and existing.get("area") != area
+        merged = {**existing, **record} if prefer_record else {**record, **existing}
+        for field in ("roles", "needs"):
+            first = existing.get(field)
+            second = record.get(field)
+            first_values = first if isinstance(first, list) else []
+            second_values = second if isinstance(second, list) else []
+            merged[field] = list(
+                dict.fromkeys(
+                    item
+                    for item in first_values + second_values
+                    if isinstance(item, str) and item.strip()
+                )
+            )
+
+        first_policies = existing.get("policies")
+        second_policies = record.get("policies")
+        if isinstance(first_policies, dict) or isinstance(second_policies, dict):
+            policies = dict(
+                first_policies if isinstance(first_policies, dict) else {}
+            )
+            if isinstance(second_policies, dict):
+                for key, value in second_policies.items():
+                    if not policies.get(key):
+                        policies[key] = value
+            for field in ("adopt", "foster"):
+                first_values = (
+                    first_policies.get(field, [])
+                    if isinstance(first_policies, dict)
+                    else []
+                )
+                second_values = (
+                    second_policies.get(field, [])
+                    if isinstance(second_policies, dict)
+                    else []
+                )
+                first_values = first_values if isinstance(first_values, list) else []
+                second_values = second_values if isinstance(second_values, list) else []
+                policies[field] = list(
+                    dict.fromkeys(
+                        item
+                        for item in first_values + second_values
+                        if isinstance(item, str) and item.strip()
+                    )
+                )
+            merged["policies"] = policies
+        by_id[shelter_id] = merged
     return by_id
 
 
@@ -190,6 +254,37 @@ def refresh_area(zip: str) -> dict[str, Any]:
     if not area:
         raise ValueError("A ZIP code is required.")
 
+    location = geocode.forward(area)
+    if (
+        not isinstance(location, dict)
+        or not isinstance(location.get("city"), str)
+        or not isinstance(location.get("state"), str)
+    ):
+        dropped: Counter[str] = Counter({"ZIP geocoding failed": 1})
+        print(f"Could not geocode ZIP {area}; existing data kept.")
+        _print_summary(0, 0, 0, dropped)
+        return {
+            "zip": area,
+            "sitesRead": 0,
+            "petsKept": 0,
+            "sheltersKept": 0,
+            "dropped": dict(dropped),
+        }
+
+    city = location["city"].strip()
+    state = location["state"].strip()
+    if not city or not state:
+        dropped = Counter({"ZIP geocoding failed": 1})
+        print(f"Could not geocode ZIP {area}; existing data kept.")
+        _print_summary(0, 0, 0, dropped)
+        return {
+            "zip": area,
+            "sitesRead": 0,
+            "petsKept": 0,
+            "sheltersKept": 0,
+            "dropped": dict(dropped),
+        }
+
     max_sites = _max_sites()
     old_shelters = _read_records(_DATA_DIR / "shelters.json")
     old_pets = _read_records(_DATA_DIR / "pets.json")
@@ -197,7 +292,7 @@ def refresh_area(zip: str) -> dict[str, Any]:
     dropped: Counter[str] = Counter()
     query = (
         "Animal shelters and rescues with adoptable dogs and cats near "
-        f"{area}"
+        f"{city}, {state} {area}"
     )
     try:
         search_response = tinyfish.search(query)
@@ -256,8 +351,16 @@ def refresh_area(zip: str) -> dict[str, Any]:
             area,
             existing_shelters,
         )
-        shelter["source"] = "tinyfish"
         dropped.update(animal_drops)
+        if not shelter.get("name"):
+            print(f"Skipping {domain}: shelter name is missing.")
+            continue
+        state_check = {**shelter, "city": answer.get("city", shelter.get("city"))}
+        if not shelter_matches_state(state_check, state):
+            dropped["out of state"] += 1 + len(pets)
+            print(f"Skipping {domain}: shelter is out of state.")
+            continue
+        shelter["source"] = "tinyfish"
         new_shelters[shelter["id"]] = shelter
         for pet in pets:
             if pet["id"] in new_pets:
@@ -281,6 +384,9 @@ def refresh_area(zip: str) -> dict[str, Any]:
             pets = result.get("pets")
             if not isinstance(shelter, dict) or not isinstance(pets, list):
                 dropped["invalid RescueGroups result"] += 1
+                continue
+            if not shelter_matches_state(shelter, state):
+                dropped["out of state"] += 1 + len(pets)
                 continue
 
             shelter_id = shelter.get("id")

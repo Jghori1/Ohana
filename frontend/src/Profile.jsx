@@ -1,26 +1,11 @@
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth, logout } from "./auth.js";
+import { get } from "./api.js";
 import Header from "./components/Header.jsx";
 import FooterStrip from "./components/FooterStrip.jsx";
 import "./dashboard.css";
 import "./profile.css";
-
-// Demo activity so the profile has something to show. Replace with API data later.
-const DEMO_ACTIVITY = {
-  adoptions: [{ pet: "Tigger", kind: "Cat", date: "2026-03-14" }],
-  fosters: [
-    { pet: "Sunny & Bean", kind: "Dogs", from: "2026-05-02", to: "2026-06-20" },
-    { pet: "Mochi", kind: "Cat", from: "2026-08-10", to: "2026-09-01" },
-  ],
-  volunteer: [
-    { what: "Dog walking", hours: 12, date: "2026-04" },
-    { what: "Adoption fair helper", hours: 6, date: "2026-07" },
-  ],
-  donations: [
-    { amount: 25, date: "2026-02-01", note: "Kitten formula drive" },
-    { amount: 40, date: "2026-09-15", note: "Monthly gift" },
-  ],
-};
 
 // XP: every action earns points; levels every 250 XP
 const LEVELS = ["Paw Pal", "Tail Wagger", "Shelter Hero", "Rescue Legend"];
@@ -39,14 +24,32 @@ const ALL_BADGES = [
 export default function Profile() {
   const navigate = useNavigate();
   const user = useAuth();
+  const [profile, setProfile] = useState(user);
+  const [error, setError] = useState("");
+
+  useEffect(() => {
+    if (!user?.token) return undefined;
+    let active = true;
+    get("/me", "user")
+      .then((data) => {
+        if (active) setProfile(data);
+      })
+      .catch((requestError) => {
+        if (active) setError(requestError.message);
+      });
+    return () => {
+      active = false;
+    };
+  }, [user?.token]);
+
   if (!user) return null; // route guard sends visitors to the login page
 
-  // merge the account's own activity with demo data so the page isn't empty
+  const account = profile ?? user;
   const act = {
-    adoptions: user.adoptions?.length ? user.adoptions : DEMO_ACTIVITY.adoptions,
-    fosters: user.fosters?.length ? user.fosters : DEMO_ACTIVITY.fosters,
-    volunteer: user.volunteer?.length ? user.volunteer : DEMO_ACTIVITY.volunteer,
-    donations: user.donations?.length ? user.donations : DEMO_ACTIVITY.donations,
+    adoptions: account.adoptions ?? [],
+    fosters: account.fosters ?? [],
+    volunteer: account.volunteer ?? [],
+    donations: account.donations ?? [],
   };
   const xp = xpFor(act);
   const level = Math.min(Math.floor(xp / 250), LEVELS.length - 1);
@@ -59,18 +62,19 @@ export default function Profile() {
       <Header />
       <main className="profile">
         <h1 className="page-title">Profile</h1>
+        {error && <p role="alert">{error}</p>}
 
         <section className="card basics">
-          <div className="avatar-big">{user.name.split(" ").map((w) => w[0]).join("").slice(0, 2)}</div>
+          <div className="avatar-big">{account.name.split(" ").map((w) => w[0]).join("").slice(0, 2)}</div>
           <div>
-            <h2>{user.name}</h2>
+            <h2>{account.name}</h2>
             <dl>
-              <dt>Email</dt><dd>{user.email}</dd>
-              <dt>Phone</dt><dd>{user.phone}</dd>
-              <dt>Age</dt><dd>{user.age}</dd>
-              <dt>Address</dt><dd>{user.address}</dd>
-              <dt>Member since</dt><dd>{user.joined}</dd>
-              <dt>ID verification</dt><dd>{user.idUploaded ? "ID uploaded — pending review" : "No ID uploaded"}</dd>
+              <dt>Email</dt><dd>{account.email}</dd>
+              <dt>Phone</dt><dd>{account.phone}</dd>
+              <dt>Age</dt><dd>{account.age}</dd>
+              <dt>Address</dt><dd>{account.address}</dd>
+              <dt>Member since</dt><dd>{account.joined}</dd>
+              <dt>ID verification</dt><dd>{account.idUploaded ? "ID uploaded — pending review" : "No ID uploaded"}</dd>
             </dl>
           </div>
           <button type="button" className="logout" onClick={() => { logout(); navigate("/individual"); }}>Log out</button>

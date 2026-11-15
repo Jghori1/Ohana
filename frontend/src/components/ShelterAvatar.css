@@ -1,0 +1,15 @@
+.shelter-avatar-img,
+.shelter-avatar-badge {
+  width: 70%;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  display: block;
+  margin: 0 auto;
+}
+.shelter-avatar-img { object-fit: contain; background: var(--paper, #fdf1dd); padding: 10px; box-sizing: border-box; }
+.shelter-avatar-badge {
+  display: grid; place-items: center;
+  background: var(--plum, #63474d); color: #fff;
+  border: 4px solid var(--peach, #fec196);
+  font-family: "Nunito", system-ui, sans-serif; font-weight: 800; font-size: 2.4rem; letter-spacing: .05em;
+}

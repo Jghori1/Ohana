@@ -1,8 +1,8 @@
 import { useEffect, useRef, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
+import { post } from "../api.js";
 import "../chat.css";
 
-const BASE = import.meta.env?.VITE_API_URL ?? "/api";
 const MESSAGE_STORAGE_KEY = "pawpatrol_chat_messages";
 const HINT_STORAGE_KEY = "pawpatrol_chat_hint_dismissed";
 const GREETING =
@@ -36,23 +36,29 @@ function readStoredMessages() {
   return [{ role: "assistant", text: GREETING, pets: [] }];
 }
 
-function readLocation() {
+function readSavedArea() {
   try {
-    const stored = localStorage.getItem("sunhacks_location");
-    if (!stored) return null;
-
-    const location = JSON.parse(stored);
-    const lat = Number(location?.lat);
-    const lng = Number(location?.lng);
-    if (
-      Number.isFinite(lat) &&
-      Number.isFinite(lng) &&
-      typeof location?.city === "string"
-    ) {
-      return { lat, lng, city: location.city };
-    }
+    return JSON.parse(localStorage.getItem("pawpatrolArea") || "null");
   } catch {
     return null;
+  }
+}
+
+function readAreaZip() {
+  const area = readSavedArea();
+  return typeof area?.zip === "string" ? area.zip : "";
+}
+
+function readLocation() {
+  const area = readSavedArea();
+  const lat = Number(area?.lat);
+  const lng = Number(area?.lng);
+  if (
+    Number.isFinite(lat) &&
+    Number.isFinite(lng) &&
+    typeof area?.city === "string"
+  ) {
+    return { lat, lng, city: area.city };
   }
   return null;
 }
@@ -136,23 +142,17 @@ export default function ChatWidget() {
     ]);
 
     try {
-      const response = await fetch(`${BASE}/chat`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          message,
-          history: messages
-            .slice(-6)
-            .map(({ role, text: messageText }) => ({
-              role,
-              text: messageText,
-            })),
-          location: readLocation(),
-        }),
+      const data = await post("/chat", {
+        message,
+        zip: readAreaZip() || undefined,
+        history: messages
+          .slice(-6)
+          .map(({ role, text: messageText }) => ({
+            role,
+            text: messageText,
+          })),
+        location: readLocation(),
       });
-      if (!response.ok) throw new Error(`Chat API returned ${response.status}`);
-
-      const data = await response.json();
       if (
         !data ||
         typeof data.reply !== "string" ||

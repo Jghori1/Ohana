@@ -433,5 +433,25 @@
     "notes": [],
     "source": "tinyfish",
     "area": "85281"
+  },
+  {
+    "id": "c4c1f634-20f0-4b05-b049-f4c09f694097",
+    "name": "dogs4u",
+    "city": "",
+    "address": "glendale",
+    "mission": "We love dogs",
+    "about": "",
+    "hours": "",
+    "phone": "",
+    "email": "dogs4u@gmail.com",
+    "website": "https://dogs4u.com",
+    "avatar": "",
+    "animals": [
+      "Dogs"
+    ],
+    "roles": [],
+    "needs": [],
+    "notes": [],
+    "source": "registered"
   }
 ]

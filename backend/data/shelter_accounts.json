@@ -1,0 +1,16 @@
+[
+  {
+    "name": "dogs4u",
+    "email": "dogs4u@gmail.com",
+    "passwordHash": "96a0b152c6b4c4eb3f924a70629ab3f4$106d3d3981905721d3209544eedf92526dca837fc59b0f1c362f585db7e13d72",
+    "address": "glendale",
+    "animals": [
+      "Dogs"
+    ],
+    "website": "https://dogs4u.com",
+    "licenseUploaded": true,
+    "mission": "We love dogs",
+    "joined": "2026-11-15",
+    "id": "c4c1f634-20f0-4b05-b049-f4c09f694097"
+  }
+]

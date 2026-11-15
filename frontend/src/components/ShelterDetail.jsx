@@ -1,5 +1,13 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+
+function ShelterPic({ src, className, fallbackClassName = "avatar-frame" }) {
+  const [failed, setFailed] = useState(false);
+  if (!src || failed) {
+    return <div className={fallbackClassName} aria-hidden="true"></div>;
+  }
+  return <img src={src} alt="" className={className} onError={() => setFailed(true)} />;
+}
 
 /**
  * Overlay with a shelter's full profile and a button out to its website.
@@ -18,7 +26,11 @@ export default function ShelterDetail({ shelter, headline, cta, onClose }) {
         <button type="button" className="close" onClick={onClose} aria-label="Close">×</button>
         {headline && <p className="thanks headline">{headline}</p>}
         <div className="detail-grid">
-          <img src={shelter.avatar} alt="" className="shelter-avatar" />
+          <ShelterPic
+            src={shelter.avatar}
+            className="shelter-avatar"
+            fallbackClassName="avatar-frame avatar-frame-large"
+          />
           <div className="notepad detail-note">
             <h3><Link className="shelter-link" to={`/shelters/${shelter.id}`} onClick={onClose}>{shelter.name}</Link></h3>
             <p className="meta">{shelter.address}, {shelter.city}</p>
