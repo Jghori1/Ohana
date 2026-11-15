@@ -47,17 +47,14 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 18px 28px;
+  min-height: 108px;
+  padding: 10px 28px;
 }
 .brand {
   display: flex;
   align-items: center;
-  gap: 12px;
-  font-family: var(--script);
-  font-weight: 400;
-  font-size: 2rem;
 }
-.brand-logo { height: 44px; width: auto; }
+.brand-logo { display: block; height: 88px; width: auto; max-width: 100%; object-fit: contain; }
 
 .hero {
   flex: 1;
@@ -253,6 +250,8 @@ body {
 .stub { padding: 40px; font-family: inherit; }
 
 @media (max-width: 760px) {
+  .topbar { min-height: 92px; padding: 8px 18px; }
+  .brand-logo { height: 76px; }
   .about-section { width: calc(100% - 28px); }
   .about-intro { grid-template-columns: 1fr; }
   .about-gallery { max-width: 520px; }
@@ -262,6 +261,8 @@ body {
 }
 
 @media (max-width: 480px) {
+  .topbar { min-height: 80px; justify-content: center; padding: 6px 12px; }
+  .brand-logo { height: 68px; }
   .about-section {
     width: calc(100% - 20px);
     padding: 24px 18px;

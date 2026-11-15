@@ -4,15 +4,14 @@
 /* ---- Top bar: llama life style (brand left, links right) ---- */
 .dash-top {
   display: flex; align-items: center; justify-content: space-between; gap: 28px;
-  padding: 14px 40px; background: #fff; border-bottom: 1px solid #f1e4dc;
+  min-height: 92px; padding: 8px 32px; background: #fff; border-bottom: 1px solid #f1e4dc;
 }
 .dash-brand {
-  display: flex; align-items: center; gap: 10px;
-  text-decoration: none; color: var(--plum);
-  font-family: var(--script); font-size: 1.8rem;
+  display: flex; align-items: center;
+  text-decoration: none;
 }
-.dash-brand img { height: 40px; }
-.dash-nav { display: flex; gap: 32px; }
+.dash-brand img { display: block; height: 76px; width: auto; max-width: 100%; object-fit: contain; }
+.dash-nav { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 24px; }
 .dash-nav a { text-decoration: none; color: var(--rose); font-weight: 800; font-size: 1.1rem; }
 .dash-nav a:hover { color: var(--plum); }
 
@@ -117,7 +116,8 @@
 .foot-note { text-align: center; font-size: .9rem; opacity: .85; margin: 22px auto 0; }
 
 @media (max-width: 900px) {
-  .dash-top { padding: 12px 16px; }
+  .dash-top { min-height: 82px; gap: 16px; padding: 8px 16px; }
+  .dash-brand img { height: 68px; }
   .dash-nav { gap: 16px; }
   .dash-main { padding: 16px; gap: 12px; }
   .dash-panel { min-height: 320px; }
@@ -127,6 +127,9 @@
   .tempe-welfare { padding: 16px; }
 }
 @media (max-width: 600px) {
+  .dash-top { flex-direction: column; justify-content: center; gap: 8px; padding: 8px 16px; }
+  .dash-brand img { height: 60px; }
+  .dash-nav { justify-content: center; gap: 12px 16px; }
   .dash-main { flex-direction: column; }
   .welfare-search-controls { align-items: stretch; flex-direction: column; }
   .welfare-search input { width: auto; }

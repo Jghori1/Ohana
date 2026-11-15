@@ -70,7 +70,7 @@ export default function Auth({ next = "/individual" }) {
       <main className="auth">
         <div className="auth-card">
           <h1 className="auth-title">{mode === "login" ? "Log in" : "Sign up"}</h1>
-          <p className="auth-sub">{mode === "login" ? "Welcome back! Log in to continue." : "Create your Paw Patrol account."}</p>
+          <p className="auth-sub">{mode === "login" ? "Welcome back! Log in to continue." : "Create your Ohana account."}</p>
 
           <form onSubmit={submit} noValidate>
             {mode === "signup" && field({ label: "Full name", k: "name", autoComplete: "name" })}

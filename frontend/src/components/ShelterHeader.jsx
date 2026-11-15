@@ -1,7 +1,7 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useShelter, shelterLogout } from "../shelterAuth.js";
 
-const LOGO_SRC = "/logo.png";
+const LOGO_SRC = "/ohana-logo.png";
 
 /** Top bar for the shelter side: brand left, shelter name + log out right */
 export default function ShelterHeader() {
@@ -10,8 +10,7 @@ export default function ShelterHeader() {
   return (
     <header className="dash-top">
       <Link to="/" className="dash-brand">
-        <img src={LOGO_SRC} alt="" />
-        <span>Paw Patrol</span>
+        <img src={LOGO_SRC} alt="Ohana" />
       </Link>
       <nav className="dash-nav">
         {shelter && (

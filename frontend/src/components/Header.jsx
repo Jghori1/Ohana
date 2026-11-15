@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { useAuth } from "../auth.js";
 
-const LOGO_SRC = "/logo.png";
+const LOGO_SRC = "/ohana-logo.png";
 export const NAV = [
   { label: "Adopt", to: "/individual/adopt" },
   { label: "Volunteer", to: "/individual/volunteer" },
@@ -15,8 +15,7 @@ export default function Header({ showProfile = true }) {
   return (
     <header className="dash-top">
       <Link to="/individual" className="dash-brand">
-        <img src={LOGO_SRC} alt="" />
-        <span>Paw Patrol</span>
+        <img src={LOGO_SRC} alt="Ohana" />
       </Link>
       <nav className="dash-nav">
         {NAV.map((n) => (

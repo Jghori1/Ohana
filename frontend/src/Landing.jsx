@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { recordChoice } from "./api.js";
 
 const HERO_SRC = "/hero.gif"; // animated puppy
-const LOGO_SRC = "/logo.png"; // house + heart + paws mark
+const LOGO_SRC = "/ohana-logo.png";
 const ABOUT_ANIMALS = [
   {
     src: "/pets/golden-puppy.jpg",
@@ -110,8 +110,7 @@ export default function Landing() {
 
       <header className="topbar">
         <span className="brand">
-          <img src={LOGO_SRC} alt="" className="brand-logo" draggable={false} />
-          Paw Patrol
+          <img src={LOGO_SRC} alt="Ohana" className="brand-logo" draggable={false} />
         </span>
       </header>
 

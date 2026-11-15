@@ -6,7 +6,7 @@ const BASE = import.meta.env?.VITE_API_URL ?? "/api";
 const MESSAGE_STORAGE_KEY = "pawpatrol_chat_messages";
 const HINT_STORAGE_KEY = "pawpatrol_chat_hint_dismissed";
 const GREETING =
-  "Hi! I'm the PawPatrol assistant. Tell me what kind of pet you're looking for.";
+  "Hi! I'm the Ohana assistant. Tell me what kind of pet you're looking for.";
 const QUICK_REPLIES = [
   "Foster a small dog near me",
   "Adopt a cat",
@@ -214,8 +214,8 @@ export default function ChatWidget() {
           aria-labelledby="chat-title"
         >
           <header className="chat-header">
-            <img className="chat-avatar" src="/hero.gif" alt="PawPatrol mascot" />
-            <strong id="chat-title">PawPatrol assistant</strong>
+            <img className="chat-avatar" src="/hero.gif" alt="Ohana mascot" />
+            <strong id="chat-title">Ohana assistant</strong>
             <button
               type="button"
               onClick={closeChat}
@@ -284,11 +284,11 @@ export default function ChatWidget() {
                 className="bubble bot chat-typing"
                 role="status"
                 aria-live="polite"
-                aria-label="PawPatrol assistant is typing"
+                aria-label="Ohana assistant is typing"
               >
                 <span aria-hidden="true">•••</span>
                 <span className="chat-sr-only">
-                  PawPatrol assistant is typing
+                  Ohana assistant is typing
                 </span>
               </div>
             )}
@@ -340,7 +340,7 @@ export default function ChatWidget() {
         type="button"
         className="chat-fab"
         onClick={open ? closeChat : openChat}
-        aria-label={open ? "Close chat" : "Open PawPatrol chat"}
+        aria-label={open ? "Close chat" : "Open Ohana chat"}
         aria-expanded={open}
         aria-controls={open ? "chat-panel" : undefined}
       >
