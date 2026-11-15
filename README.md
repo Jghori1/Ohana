@@ -1,6 +1,6 @@
-# PawPatrol
+# OHANA
 
-PawPatrol connects animal shelters with people who want to adopt, foster, volunteer, or donate.
+Ohana means family and every life deserves one
 
 ## Run the backend
 
