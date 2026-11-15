@@ -1,0 +1,41 @@
+/* Shelter dashboard */
+.shelterdash .count { margin: -10px 0 0; }
+.map { width: 100%; height: 260px; border: 0; border-radius: 12px; background: #fff; }
+.addr { margin: 10px 0 6px; font-weight: 700; }
+.links { display: flex; flex-wrap: wrap; gap: 10px; }
+.links .meet { text-decoration: none; margin-top: 0; font-family: "Nunito", sans-serif; font-size: .95rem; }
+.small { font-size: .85rem; margin-top: 10px; }
+.requests { list-style: none; padding: 0; margin: 0 0 14px; display: flex; flex-direction: column; gap: 10px; }
+.requests li { background: #fff; border-radius: 10px; padding: 10px 14px; }
+.req-head { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; }
+.requests .muted { margin: 2px 0 4px; font-size: .9rem; }
+.requests .raised { font-size: .85rem; margin: 4px 0 0; }
+.new-req { display: grid; grid-template-columns: 1fr 100px; gap: 8px; }
+.new-req input { font: inherit; padding: 9px 12px; border-radius: 10px; border: 2px solid #e9d7cc; background: #fff; color: var(--plum); }
+.new-req input:nth-child(3) { grid-column: 1; }
+.new-req .meet { font-family: "Nunito", sans-serif; font-size: .95rem; margin-top: 0; }
+.upload { display: flex; align-items: center; gap: 12px; margin-bottom: 14px; cursor: pointer; }
+.upload input { display: none; }
+.upload .meet { font-family: "Nunito", sans-serif; font-size: .95rem; margin-top: 0; }
+.upload em { font-style: normal; font-size: .85rem; color: var(--rose); }
+.gallery { list-style: none; padding: 0; margin: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 12px; }
+.gallery li { position: relative; }
+.gallery img { width: 100%; aspect-ratio: 1; object-fit: cover; border-radius: 12px; border: 4px solid #fff; box-shadow: 0 6px 14px rgba(99,71,77,.15); display: block; }
+.gallery .del { position: absolute; top: 2px; right: 2px; width: 28px; height: 28px; border-radius: 50%; border: 2px solid var(--plum); background: var(--tangerine); color: var(--plum); font: inherit; font-size: 1.1rem; line-height: 1; cursor: pointer; }
+.nav-btn { font: inherit; font-weight: 800; font-size: 1.1rem; color: var(--rose); background: none; border: 0; cursor: pointer; padding: 0; }
+.nav-btn:hover { color: var(--plum); }
+.auth .animals { border: 0; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 6px; }
+.auth .animals legend { font-weight: 800; font-size: .9rem; padding: 0; margin-bottom: 4px; }
+.auth .chips { display: flex; flex-wrap: wrap; gap: 8px; }
+.auth .chips label { flex-direction: row; align-items: center; gap: 6px; padding: 6px 12px; border-radius: 999px; border: 2px solid #e9d7cc; background: #fff; font-weight: 700; cursor: pointer; }
+.auth .chips label.on { background: var(--tangerine); border-color: var(--plum); }
+.auth .chips input { width: 14px; height: 14px; accent-color: var(--plum); padding: 0; }
+.auth .animals.bad .chips label { border-color: var(--rose); }
+
+/* mission */
+.mission-text { margin: 0; font-family: "Patrick Hand", cursive; font-size: 1.3rem; line-height: 1.5; }
+.mission-edit textarea { width: 100%; box-sizing: border-box; font: inherit; font-size: 1rem; padding: 10px 12px; border-radius: 10px; border: 2px solid #e9d7cc; background: #fff; color: var(--plum); resize: vertical; margin-bottom: 10px; }
+.meet.ghost { background: #fff; }
+.mission h2 .linkish { font-family: "Nunito", sans-serif; font-size: .9rem; }
+.shelter-link { color: inherit; text-decoration: underline; text-decoration-color: var(--tangerine); text-underline-offset: 3px; }
+.shelter-link:hover { color: var(--rose); }

@@ -1,0 +1,10 @@
+/* Donate page — causes with progress bars */
+.urgency { display: inline-block; margin-bottom: 4px; font-family: "Nunito", sans-serif; font-weight: 800; font-size: .75rem; letter-spacing: .08em; text-transform: uppercase; padding: 4px 10px; border-radius: 999px; background: var(--peach); color: var(--plum); border: 2px solid var(--plum); }
+.urgency.urgent { background: var(--tangerine); }
+.urgency.ongoing { background: #fff; }
+.cause .notepad p { margin: 0; }
+.cause .notepad h3 { clear: both; }
+.progress { margin-top: 6px; }
+.progress .bar { height: 14px; border-radius: 999px; background: #fff; border: 2px solid var(--peach); overflow: hidden; }
+.progress .bar span { display: block; height: 100%; background: linear-gradient(90deg, var(--tangerine), var(--rose)); transition: width .4s; }
+.raised { font-family: "Nunito", sans-serif; font-size: .9rem; color: var(--rose); font-weight: 700; line-height: 1.6; margin-top: 4px !important; }

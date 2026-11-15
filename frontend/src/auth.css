@@ -1,0 +1,24 @@
+/* Login / sign-up page */
+.auth { flex: 1; display: flex; justify-content: center; padding: 32px 20px 48px; }
+.auth-card { width: 100%; max-width: 480px; background: var(--paper); border-radius: 16px; padding: 24px; box-sizing: border-box; }
+.auth-title { font-family: var(--script); font-weight: 400; font-size: 2.4rem; margin: 0; line-height: 1; }
+.auth-sub { margin: 6px 0 18px; color: var(--rose); font-weight: 600; }
+.auth form { display: flex; flex-direction: column; gap: 12px; }
+.auth label { display: flex; flex-direction: column; gap: 4px; font-weight: 800; font-size: .9rem; }
+.auth input {
+  font: inherit; padding: 10px 12px; border-radius: 10px; border: 2px solid #e9d7cc; background: #fff; color: var(--plum);
+}
+.auth input:focus { outline: none; border-color: var(--tangerine); }
+.auth label.bad input { border-color: var(--rose); }
+.auth small { color: var(--rose); font-weight: 600; }
+.auth .file input { padding: 6px 0; border: 0; background: transparent; }
+.auth .file em { font-weight: 400; font-style: normal; font-size: .82rem; color: var(--rose); }
+.server-error { margin: 0; color: #fff; background: var(--rose); padding: 10px 12px; border-radius: 10px; font-weight: 700; }
+.go {
+  font: inherit; font-family: var(--script); font-size: 1.5rem; padding: 12px; margin-top: 6px; cursor: pointer;
+  border: 3px solid var(--plum); border-radius: 14px; background: var(--tangerine); color: var(--plum);
+}
+.go:hover { background: var(--peach); }
+.go:disabled { opacity: .6; cursor: wait; }
+.switch { text-align: center; margin: 14px 0 0; font-size: .9rem; }
+.switch button { font: inherit; font-weight: 800; color: var(--rose); background: none; border: 0; cursor: pointer; padding: 0; text-decoration: underline; }

@@ -1,0 +1,31 @@
+/* Floating chat helper. Uses the palette variables from index.css. */
+.chat { position: fixed; right: 18px; bottom: 18px; z-index: 40; font-family: "Nunito", system-ui, sans-serif; }
+.chat-fab {
+  width: 58px; height: 58px; border-radius: 50%; border: 3px solid var(--plum); background: var(--tangerine);
+  display: grid; place-items: center; cursor: pointer; box-shadow: 0 6px 16px rgba(99,71,77,.35); padding: 0;
+}
+.chat-fab:hover { background: var(--peach); }
+.chat-fab svg { width: 30px; height: 30px; fill: var(--plum); }
+.chat-panel {
+  position: absolute; right: 0; bottom: 70px; width: min(360px, calc(100vw - 36px)); height: min(520px, calc(100vh - 110px));
+  display: flex; flex-direction: column; background: #fff; border: 3px solid var(--plum); border-radius: 18px; overflow: hidden;
+  box-shadow: 0 16px 40px rgba(0,0,0,.3);
+}
+.chat-panel header { display: flex; justify-content: space-between; align-items: center; padding: 10px 14px; background: var(--plum); color: var(--peach); }
+.chat-panel header button { background: none; border: 0; color: inherit; font-size: 24px; line-height: 1; cursor: pointer; }
+.chat-log { flex: 1; overflow-y: auto; padding: 12px; display: flex; flex-direction: column; gap: 8px; background: var(--paper); }
+.bubble { max-width: 88%; padding: 8px 12px; border-radius: 14px; font-size: 15px; color: var(--plum); }
+.bubble p { margin: 0; white-space: pre-wrap; }
+.bubble.bot { align-self: flex-start; background: #fff; border: 1px solid var(--bronze); }
+.bubble.me { align-self: flex-end; background: var(--peach); }
+.chat-pets { list-style: none; margin: 8px 0 0; padding: 0; display: grid; gap: 6px; }
+.chat-pets li { display: flex; gap: 8px; align-items: center; background: var(--paper); border-radius: 10px; padding: 6px; }
+.chat-pets img { width: 44px; height: 44px; object-fit: cover; border-radius: 8px; flex: none; }
+.chat-pets span { display: grid; min-width: 0; }
+.chat-pets small { color: var(--rose); }
+.chat-more { display: inline-block; margin-top: 8px; font-size: 13px; color: var(--plum); }
+.chat-panel form { display: flex; gap: 6px; padding: 8px; border-top: 1px solid var(--bronze); background: #fff; }
+.chat-panel input { flex: 1; min-width: 0; padding: 9px 10px; border: 2px solid var(--bronze); border-radius: 10px; font: inherit; color: var(--plum); }
+.chat-panel form button { border: 0; border-radius: 10px; padding: 0 14px; background: var(--plum); color: var(--peach); font: inherit; cursor: pointer; }
+.chat-panel form button:disabled { opacity: .5; cursor: default; }
+@media (prefers-reduced-motion: no-preference) { .chat-fab { transition: transform .15s; } .chat-fab:hover { transform: scale(1.06); } }

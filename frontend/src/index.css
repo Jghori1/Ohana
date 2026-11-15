@@ -1,0 +1,104 @@
+/* ---- Hello Christmas (by puricreative, personal-use free) ----
+   Download from dafont, put the file at public/fonts/HelloChristmas.ttf.
+   Until then the page falls back to Lobster (Google Fonts). */
+@font-face {
+  font-family: "Hello Christmas";
+  src: url("/fonts/HelloChristmas.ttf") format("truetype");
+  font-display: swap;
+}
+
+/* ---- Palette (from your swatch) ---- */
+:root {
+  --plum: #63474d; /* Chocolate Plum */
+  --rose: #aa767c; /* Dusty Rose */
+  --bronze: #d6a184; /* Light Bronze */
+  --tangerine: #ffa686; /* Tangerine Dream */
+  --peach: #fec196; /* Peach Glow */
+  --paper: #fdf1dd; /* matches the gif's cream background */
+  --ink: var(--plum);
+  --script: "Hello Christmas", "Lobster", cursive;
+}
+
+* { box-sizing: border-box; }
+html, body, #root { height: 100%; margin: 0; }
+body {
+  font-family: "Nunito", system-ui, -apple-system, sans-serif;
+  color: var(--ink);
+  background: var(--paper);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ---- Layout ---- */
+.landing {
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+  user-select: none;
+  background:
+    radial-gradient(60vw 60vw at 85% -10%, var(--peach) 0%, transparent 60%),
+    radial-gradient(50vw 50vw at -10% 100%, #f3d5cf 0%, transparent 60%),
+    var(--paper);
+}
+
+.topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 18px 28px;
+}
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-family: var(--script);
+  font-weight: 400;
+  font-size: 2rem;
+}
+.brand-logo { height: 44px; width: auto; }
+
+.hero {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 16px 20px 40px;
+}
+.hero-img {
+  width: min(380px, 70vw);
+  margin-bottom: 36px;
+  border-radius: 50%;
+  mix-blend-mode: multiply; /* hides the gif's cream box against the page */
+  transition: transform 0.14s cubic-bezier(0.2, 1.4, 0.4, 1);
+}
+.hero-img.bounce { transform: scale(1.08) rotate(-3deg); }
+/* ---- The two role buttons (plain & simple) ---- */
+.choices {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 24px;
+  justify-content: center;
+}
+.choice {
+  font-family: var(--script);
+  font-size: 1.9rem;
+  padding: 22px 48px;
+  border: 3px solid var(--plum);
+  border-radius: 14px;
+  background: var(--tangerine);
+  color: var(--plum);
+  cursor: pointer;
+}
+.choice:hover { background: var(--peach); }
+.choice:disabled { opacity: 0.6; cursor: wait; }
+
+
+.stub { padding: 40px; font-family: inherit; }
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-img { transition: none; }
+}
