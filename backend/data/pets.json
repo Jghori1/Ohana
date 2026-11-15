@@ -334,5 +334,869 @@
       "adopt": [],
       "foster": []
     }
+  },
+  {
+    "id": "pet_d46da1ebd43e",
+    "name": "Kopak",
+    "src": "https://g.petango.com/photos/1602/b1d4299c-e4f1-417e-93b0-0d7c984098bf.jpg",
+    "shelterId": "shelter_8d30ce39b5bf",
+    "species": "Dog",
+    "age": "Adult",
+    "size": "Large",
+    "sex": "Male",
+    "breed": "Labrador Retriever/Chinese Shar-Pei",
+    "notes": [],
+    "sourceUrl": "https://www.petplace.com/pet-adoption/dogs/42062365/PP5935",
+    "area": "85004",
+    "details": {
+      "story": "Gentle senior who is leash-trained, house-trained, and prefers affection and head pats over toys, though he may enjoy a rope toy.",
+      "health": null,
+      "idealHome": null,
+      "fee": 85
+    },
+    "policies": {
+      "adopt": [],
+      "foster": []
+    }
+  },
+  {
+    "id": "pet_eda552126467",
+    "name": "Fred",
+    "src": "https://g.petango.com/photos/1602/7b2d9a21-9761-4c07-b25e-e32ad176bb72.jpg",
+    "shelterId": "shelter_8d30ce39b5bf",
+    "species": "Dog",
+    "age": "Adult",
+    "size": "Small",
+    "sex": "Male",
+    "breed": "Chihuahua, Short Coat/Mix",
+    "notes": [],
+    "sourceUrl": "https://www.petplace.com/pet-adoption/dogs/55536680/PP5935",
+    "area": "85004",
+    "details": {
+      "story": "Fun-loving guy ready to find his new furever home. May be small but packs a powerful punch. Loves playing tug-of-war, gnawing on bones, and is very food motivated. Would need to meet every member of the family first. Prefers older crowd and wouldn't do well with children under the age of 6.",
+      "health": null,
+      "idealHome": null,
+      "fee": 50
+    },
+    "policies": {
+      "adopt": [],
+      "foster": []
+    }
+  },
+  {
+    "id": "pet_e24dc8bb8c55",
+    "name": "Bleu",
+    "src": "https://g.petango.com/photos/1602/b376419f-2b57-4943-be4c-8fba3095d202.jpg",
+    "shelterId": "shelter_8d30ce39b5bf",
+    "species": "Dog",
+    "age": "Young",
+    "size": "Medium",
+    "sex": "Male",
+    "breed": "Australian Cattle Dog/Mix",
+    "notes": [],
+    "sourceUrl": "https://www.petplace.com/pet-adoption/dogs/58332443/PP5935",
+    "area": "85004",
+    "details": {
+      "story": "Playful, fun-loving Australian Cattle Dog mix who is bonded with his brother, Lux. They must be adopted together. Enjoys fetch and 'tap dancing' for attention. His brother Lux has hydrocephalus, but both are described as pure joy.",
+      "health": null,
+      "idealHome": null,
+      "fee": null
+    },
+    "policies": {
+      "adopt": [],
+      "foster": []
+    }
+  },
+  {
+    "id": "pet_eafe40154a29",
+    "name": "Lux",
+    "src": "https://g.petango.com/photos/1602/37613b76-1a79-4264-b1d1-d7fb94fc699d.jpg",
+    "shelterId": "shelter_8d30ce39b5bf",
+    "species": "Dog",
+    "age": "Young",
+    "size": "Medium",
+    "sex": "Male",
+    "breed": "Australian Cattle Dog/Mix",
+    "notes": [],
+    "sourceUrl": "https://www.petplace.com/pet-adoption/dogs/58332446/PP5935",
+    "area": "85004",
+    "details": {
+      "story": "Bonded with Bleu and must be adopted together. Has hydrocephalus but is a happy, loving dog who enjoys dancing and playing with his brother Bleu. Weighs about 35 pounds.",
+      "health": null,
+      "idealHome": null,
+      "fee": null
+    },
+    "policies": {
+      "adopt": [],
+      "foster": []
+    }
+  },
+  {
+    "id": "pet_fa6f76a22425",
+    "name": "Beau Beau",
+    "src": "https://g.petango.com/photos/172/954337ee-ee7e-470c-a1a6-90124fdd7582.jpg",
+    "shelterId": "shelter_f4725a70b942",
+    "species": "Dog",
+    "age": "Adult",
+    "size": "Medium",
+    "sex": null,
+    "breed": "Terrier, American Staffordshire/Mix",
+    "notes": [],
+    "sourceUrl": "https://www.petplace.com/pet-adoption/dogs/57976846/PP50",
+    "area": "85004",
+    "details": {
+      "story": "Beau Beau is a dog currently in a board & train program at PetSuites Novi. He is described as affectionate, playful, and engaged, though he requires an adopter with experience in handling dogs with complex backgrounds or trauma. He is working on impulse control, focus, and leash walking.",
+      "health": null,
+      "idealHome": null,
+      "fee": 250
+    },
+    "policies": {
+      "adopt": [],
+      "foster": []
+    }
+  },
+  {
+    "id": "pet_f28f6bffcf68",
+    "name": "Faith",
+    "src": "https://g.petango.com/photos/172/5d1dcb66-a743-4558-9e1b-57079080e14e.jpg",
+    "shelterId": "shelter_f4725a70b942",
+    "species": "Dog",
+    "age": "Adult",
+    "size": "Medium",
+    "sex": null,
+    "breed": "Terrier, American Pit Bull/Mix",
+    "notes": [],
+    "sourceUrl": "https://www.petplace.com/pet-adoption/dogs/58508732/PP50",
+    "area": "85004",
+    "details": {
+      "story": "Faith is an intelligent, energetic, and loyal dog who requires an experienced, patient adopter, preferably in a home without children or other pets, and requires multiple visits to build trust.",
+      "health": null,
+      "idealHome": null,
+      "fee": 250
+    },
+    "policies": {
+      "adopt": [],
+      "foster": []
+    }
+  },
+  {
+    "id": "pet_d65207dbd7b6",
+    "name": "Hansel",
+    "src": "https://g.petango.com/photos/172/f90ace9e-78fe-4586-adba-a941cc2b8395.jpg",
+    "shelterId": "shelter_f4725a70b942",
+    "species": "Dog",
+    "age": "Adult",
+    "size": "Large",
+    "sex": null,
+    "breed": "Great Pyrenees/Mix",
+    "notes": [],
+    "sourceUrl": "https://www.petplace.com/pet-adoption/dogs/59100360/PP50",
+    "area": "85004",
+    "details": {
+      "story": "Hansel is a 'big, derpy sweetheart' who is lovable, silly, and devoted. He walks well on a leash, enjoys being outside in large yards, and is initially nervous around new people but loyal once comfortable.",
+      "health": null,
+      "idealHome": null,
+      "fee": 250
+    },
+    "policies": {
+      "adopt": [],
+      "foster": []
+    }
+  },
+  {
+    "id": "pet_71d7b99b54cf",
+    "name": "Rex",
+    "src": "https://g.petango.com/photos/172/be991b86-ac89-4a05-9a4b-3a3a841c9ba6.jpg",
+    "shelterId": "shelter_f4725a70b942",
+    "species": "Dog",
+    "age": "Adult",
+    "size": "Medium",
+    "sex": null,
+    "breed": "Terrier, Staffordshire Bull/Mix",
+    "notes": [],
+    "sourceUrl": "https://www.petplace.com/pet-adoption/dogs/59970136/PP50",
+    "area": "85004",
+    "details": {
+      "story": "Rex is a people-oriented, affectionate dog who loves fetch, scent work, and giving hugs. He must be the only pet in the home.",
+      "health": null,
+      "idealHome": null,
+      "fee": 250
+    },
+    "policies": {
+      "adopt": [],
+      "foster": []
+    }
+  },
+  {
+    "id": "pet_51dc4ac4e539",
+    "name": "Bailey",
+    "src": "https://g.petango.com/photos/172/57fdb2a1-eea9-4bfe-a0e6-697587963537.jpg",
+    "shelterId": "shelter_f4725a70b942",
+    "species": "Dog",
+    "age": "Adult",
+    "size": "Medium",
+    "sex": null,
+    "breed": "Terrier, American Staffordshire/Mix",
+    "notes": [],
+    "sourceUrl": "https://www.petplace.com/pet-adoption/dogs/60004947/PP50",
+    "area": "85004",
+    "details": {
+      "story": "Bailey has been diagnosed with cancer (suspected lymphoma) and is looking for a hospice-style forever home. She is sweet, food-motivated, good with adults and older children, and enjoys car rides and lounging.",
+      "health": null,
+      "idealHome": null,
+      "fee": 125
+    },
+    "policies": {
+      "adopt": [],
+      "foster": []
+    }
+  },
+  {
+    "id": "pet_8f5f02d22526",
+    "name": "Timmy",
+    "src": "https://dbw3zep4prcju.cloudfront.net/animal/24ae2fba-113a-4192-bb41-220918c7893d/image/a0c79675-9ad9-45e5-9069-598a050e53f0.jpg",
+    "shelterId": "shelter_c3106f46b6e6",
+    "species": "Dog",
+    "age": null,
+    "size": "Medium",
+    "sex": null,
+    "breed": "Mixed Breed",
+    "notes": [],
+    "sourceUrl": "https://www.petfinder.com/dog/timmy-24ae2fba-113a-4192-bb41-220918c7893d/mi/lapeer/paradise-animal-rescue-mi324/details",
+    "area": "85004",
+    "details": {
+      "story": null,
+      "health": null,
+      "idealHome": null,
+      "fee": null
+    },
+    "policies": {
+      "adopt": [],
+      "foster": []
+    }
+  },
+  {
+    "id": "pet_89c53d29ef4d",
+    "name": "Skelly",
+    "src": "https://dbw3zep4prcju.cloudfront.net/animal/ccdc6e6a-7d47-4b0f-8774-9b028ad66581/image/53d89bd8-fcd0-4f52-84e9-73bfd39a85e4.jpg",
+    "shelterId": "shelter_c3106f46b6e6",
+    "species": "Dog",
+    "age": null,
+    "size": "Medium",
+    "sex": null,
+    "breed": "Boxer",
+    "notes": [],
+    "sourceUrl": "https://www.petfinder.com/dog/skelly-ccdc6e6a-7d47-4b0f-8774-9b028ad66581/mi/lapeer/paradise-animal-rescue-mi324/details",
+    "area": "85004",
+    "details": {
+      "story": null,
+      "health": null,
+      "idealHome": null,
+      "fee": null
+    },
+    "policies": {
+      "adopt": [],
+      "foster": []
+    }
+  },
+  {
+    "id": "pet_d9d7bac3c673",
+    "name": "Koala",
+    "src": "https://dbw3zep4prcju.cloudfront.net/animal/bfc63e8d-169d-4239-a2ca-b2b7bb38bd71/image/459f0bf5-a074-4f3c-ae02-1c02f69e4891.jpg",
+    "shelterId": "shelter_c3106f46b6e6",
+    "species": "Dog",
+    "age": null,
+    "size": "Medium",
+    "sex": null,
+    "breed": "Black Labrador Retriever",
+    "notes": [],
+    "sourceUrl": "https://www.petfinder.com/dog/koala-bfc63e8d-169d-4239-a2ca-b2b7bb38bd71/mi/lapeer/paradise-animal-rescue-mi324/details",
+    "area": "85004",
+    "details": {
+      "story": null,
+      "health": null,
+      "idealHome": null,
+      "fee": null
+    },
+    "policies": {
+      "adopt": [],
+      "foster": []
+    }
+  },
+  {
+    "id": "pet_42bf74a65a05",
+    "name": "Uno",
+    "src": "https://dbw3zep4prcju.cloudfront.net/animal/c876df9d-bb70-4c42-ae6e-73070cbffedb/image/3479ffc2-c8b7-433a-a352-6b3062706465.jpg",
+    "shelterId": "shelter_c3106f46b6e6",
+    "species": "Dog",
+    "age": null,
+    "size": "Large",
+    "sex": null,
+    "breed": "Pit Bull Terrier",
+    "notes": [],
+    "sourceUrl": "https://www.petfinder.com/dog/uno-c876df9d-bb70-4c42-ae6e-73070cbffedb/mi/lapeer/paradise-animal-rescue-mi324/details",
+    "area": "85004",
+    "details": {
+      "story": null,
+      "health": null,
+      "idealHome": null,
+      "fee": null
+    },
+    "policies": {
+      "adopt": [],
+      "foster": []
+    }
+  },
+  {
+    "id": "pet_b2c4eea32204",
+    "name": "Appletini",
+    "src": "https://marl.org/wp-content/uploads/bb-plugin/cache/Appletini-1-circle-12413011450192068453-u8539nxl5p8c.webp",
+    "shelterId": "shelter_6203a9aabdf1",
+    "species": "Dog",
+    "age": "Adult",
+    "size": null,
+    "sex": "Female",
+    "breed": "Husky/Labrador Retriever Mix",
+    "notes": [],
+    "sourceUrl": "https://marl.org/adopt/animal/appletini/",
+    "area": "85004",
+    "details": {
+      "story": "Cute, fun-sized, and ready to be your new best friend, Appletini is a Husky/Lab mix with a whole lot of personality. She is sweet, silly, affectionate, and loves being part of whatever her people are doing. She is currently undergoing heartworm treatment, which MARL covers and manages.",
+      "health": null,
+      "idealHome": null,
+      "fee": 250
+    },
+    "policies": {
+      "adopt": [],
+      "foster": []
+    }
+  },
+  {
+    "id": "pet_790687982f0b",
+    "name": "Athena",
+    "src": "https://marl.org/wp-content/uploads/2026/11/Athena-300x300.png",
+    "shelterId": "shelter_6203a9aabdf1",
+    "species": "Cat",
+    "age": "Young",
+    "size": null,
+    "sex": "Female",
+    "breed": "DSH",
+    "notes": [],
+    "sourceUrl": "https://marl.org/adopt/animal/athena/",
+    "area": "85004",
+    "details": {
+      "story": null,
+      "health": null,
+      "idealHome": null,
+      "fee": null
+    },
+    "policies": {
+      "adopt": [],
+      "foster": []
+    }
+  },
+  {
+    "id": "pet_5ada6751d797",
+    "name": "Bianca",
+    "src": "https://marl.org/wp-content/uploads/2026/09/bianca-755x1024.jpg",
+    "shelterId": "shelter_6203a9aabdf1",
+    "species": "Dog",
+    "age": "Adult",
+    "size": null,
+    "sex": "Female",
+    "breed": "Shepherd Mix",
+    "notes": [],
+    "sourceUrl": "https://marl.org/adopt/animal/bianca/",
+    "area": "85004",
+    "details": {
+      "story": null,
+      "health": null,
+      "idealHome": null,
+      "fee": null
+    },
+    "policies": {
+      "adopt": [],
+      "foster": []
+    }
+  },
+  {
+    "id": "pet_146167abfde8",
+    "name": "Blonko",
+    "src": "https://marl.org/wp-content/uploads/2026/08/blonko11-768x898.jpg",
+    "shelterId": "shelter_6203a9aabdf1",
+    "species": "Dog",
+    "age": "Young",
+    "size": null,
+    "sex": "Male",
+    "breed": "Labrador Retriever",
+    "notes": [],
+    "sourceUrl": "https://marl.org/adopt/animal/blonko/",
+    "area": "85004",
+    "details": {
+      "story": null,
+      "health": null,
+      "idealHome": null,
+      "fee": null
+    },
+    "policies": {
+      "adopt": [],
+      "foster": []
+    }
+  },
+  {
+    "id": "pet_6e137c465dfc",
+    "name": "Inga",
+    "src": "https://g.petango.com/photos/3451/167314ad-3f15-4274-94f1-926d220269c1.jpg",
+    "shelterId": "shelter_5bc815fbd96e",
+    "species": "Cat",
+    "age": "Young",
+    "size": null,
+    "sex": "Female",
+    "breed": "Domestic Medium Hair / Mix",
+    "notes": [],
+    "sourceUrl": "https://michiganhumane.org/adopt/pet-detail/?id=61803012",
+    "area": "85004",
+    "details": {
+      "story": "Meet Inga, a young cat full of life and love! Her days are spent exploring every nook of her temporary home, playing with toys, and making everyone laugh with her goofy antics. Inga is not just playful; she's also incredibly brave and curious, always the first to greet new visitors with a friendly purr. After a fun-filled day, she loves nothing more than to cuddle up close, showing her sweet nature. Inga would make a delightful companion, ready to bring energy, laughter, and affection into her forever home! She also gets along with other cats!",
+      "health": null,
+      "idealHome": null,
+      "fee": 75
+    },
+    "policies": {
+      "adopt": [],
+      "foster": []
+    }
+  },
+  {
+    "id": "pet_d9f52b6f1000",
+    "name": "Homie",
+    "src": "https://g.petango.com/photos/3451/a1025b54-9d8c-438c-9ce6-b41671bdaee0.jpg",
+    "shelterId": "shelter_5bc815fbd96e",
+    "species": "Dog",
+    "age": "Adult",
+    "size": null,
+    "sex": "Male",
+    "breed": "Terrier, Pit Bull / Mix",
+    "notes": [],
+    "sourceUrl": "https://michiganhumane.org/adopt/pet-detail/?id=61969942",
+    "area": "85004",
+    "details": {
+      "story": "Meet Homie! This young guy is looking for a home that will take it slow with him and allow him to truly open up! He loves to be a 'sniff-vestigator' and would most likely enjoy some scent-based enrichment and long walks or hikes! He can be a little over excited when meeting another canine companion, so he would need meet your resident dog before adoption. Come meet Homie today! An ideal home would be: - Must meet dogs - Children 8 years and up, must meet",
+      "health": null,
+      "idealHome": null,
+      "fee": 100
+    },
+    "policies": {
+      "adopt": [],
+      "foster": []
+    }
+  },
+  {
+    "id": "pet_bc6a24d2f9d4",
+    "name": "Maple",
+    "src": "https://g.petango.com/photos/3451/888dd026-749e-41f6-a301-d1999836acb5.jpg",
+    "shelterId": "shelter_5bc815fbd96e",
+    "species": "Rabbit",
+    "age": "Young",
+    "size": null,
+    "sex": "Female",
+    "breed": "Rabbit / Californian",
+    "notes": [],
+    "sourceUrl": "https://michiganhumane.org/adopt/pet-detail/?id=61251132",
+    "area": "85004",
+    "details": {
+      "story": "Meet Maple, a young rabbit known for her sweet and friendly nature. She thrives in a calm environment where she can slowly come out of her shell. Maple's gentle spirit and friendly demeanor make her an ideal pet for someone looking to add a quiet and loving member to their family. I am nervous to be handled/picked up. I must go home with children 8 years & older.",
+      "health": null,
+      "idealHome": null,
+      "fee": 60
+    },
+    "policies": {
+      "adopt": [],
+      "foster": []
+    }
+  },
+  {
+    "id": "pet_f4881c8eb8b8",
+    "name": "Gingersnap",
+    "src": "https://g.petango.com/photos/3451/e46fea78-4bb2-4543-9a8b-f62257708c50.jpg",
+    "shelterId": "shelter_5bc815fbd96e",
+    "species": "Rabbit",
+    "age": "Young",
+    "size": null,
+    "sex": "Female",
+    "breed": "Rabbit / Rabbit",
+    "notes": [],
+    "sourceUrl": "https://michiganhumane.org/adopt/pet-detail/?id=61251122",
+    "area": "85004",
+    "details": {
+      "story": "Meet Harper, a young rabbit with a heart full of sweetness. Her gentle nature makes her the perfect companion for quiet, cozy days. Harper's friendly demeanor shines through her shyness, making her a delightful friend once she warms up to new faces. Despite her mellow personality, she's curious and enjoys exploring her surroundings at a leisurely pace. Adopting Harper means giving her a forever home where her gentle spirit can flourish and bring joy to her new family. - I am nervous when being picked up/handled. I must go home to children 8 years & older.",
+      "health": null,
+      "idealHome": null,
+      "fee": 60
+    },
+    "policies": {
+      "adopt": [],
+      "foster": []
+    }
+  },
+  {
+    "id": "pet_f55a2ae1e7b9",
+    "name": "Tank",
+    "src": "https://new-s3.shelterluv.com/profile-pictures/0abef71d9468849076f61d671e6d4d24/8ac8b44a1e5fda6e0ec0f48d7818bfef.jpg",
+    "shelterId": "shelter_39b60262bf6d",
+    "species": "Dog",
+    "age": null,
+    "size": null,
+    "sex": null,
+    "breed": "",
+    "notes": [],
+    "sourceUrl": "https://new.shelterluv.com/embed/animal/EPNV-A-4114",
+    "area": "85281",
+    "details": {
+      "story": null,
+      "health": null,
+      "idealHome": null,
+      "fee": null
+    },
+    "policies": {
+      "adopt": [],
+      "foster": []
+    }
+  },
+  {
+    "id": "pet_b5556ecb5ad0",
+    "name": "Sterling",
+    "src": "https://new-s3.shelterluv.com/profile-pictures/8b1c9648af4c2461cac27541a52c25a4/d421934f664af75d238a7ea4d2370f89.jpg",
+    "shelterId": "shelter_39b60262bf6d",
+    "species": "Dog",
+    "age": null,
+    "size": null,
+    "sex": null,
+    "breed": "",
+    "notes": [],
+    "sourceUrl": "https://new.shelterluv.com/embed/animal/EPNV-A-4120",
+    "area": "85281",
+    "details": {
+      "story": null,
+      "health": null,
+      "idealHome": null,
+      "fee": null
+    },
+    "policies": {
+      "adopt": [],
+      "foster": []
+    }
+  },
+  {
+    "id": "pet_143b39acbb60",
+    "name": "Bert (Brick, Tator, Homer)",
+    "src": "https://new-s3.shelterluv.com/profile-pictures/521e062eb38ae71b34038a792a24689e/c5cf1e82bdd21ba002f3d1453a367ca3.jpg",
+    "shelterId": "shelter_39b60262bf6d",
+    "species": "Dog",
+    "age": null,
+    "size": null,
+    "sex": null,
+    "breed": "",
+    "notes": [],
+    "sourceUrl": "https://new.shelterluv.com/embed/animal/EPNV-A-4144",
+    "area": "85281",
+    "details": {
+      "story": null,
+      "health": null,
+      "idealHome": null,
+      "fee": null
+    },
+    "policies": {
+      "adopt": [],
+      "foster": []
+    }
+  },
+  {
+    "id": "pet_1d372bca5692",
+    "name": "CANELO",
+    "src": "https://new-s3.shelterluv.com/profile-pictures/e5aa385bf1aaf564579febd62809d885/dc2d84c89eaba952faa31123badaab40.jpg",
+    "shelterId": "shelter_39b60262bf6d",
+    "species": "Dog",
+    "age": null,
+    "size": null,
+    "sex": null,
+    "breed": "",
+    "notes": [],
+    "sourceUrl": "https://new.shelterluv.com/embed/animal/EPNV-A-4167",
+    "area": "85281",
+    "details": {
+      "story": null,
+      "health": null,
+      "idealHome": null,
+      "fee": null
+    },
+    "policies": {
+      "adopt": [],
+      "foster": []
+    }
+  },
+  {
+    "id": "pet_08154f53306d",
+    "name": "Frank aka Mr Sinatra",
+    "src": "https://new-s3.shelterluv.com/profile-pictures/082744aa84f6a5fe35a51c4b8fe7df1b/8026ed1362a0cd5c9f6f2a09cd30ad25.jpg",
+    "shelterId": "shelter_39b60262bf6d",
+    "species": "Dog",
+    "age": null,
+    "size": null,
+    "sex": null,
+    "breed": "",
+    "notes": [],
+    "sourceUrl": "https://new.shelterluv.com/embed/animal/EPNV-A-4238",
+    "area": "85281",
+    "details": {
+      "story": null,
+      "health": null,
+      "idealHome": null,
+      "fee": null
+    },
+    "policies": {
+      "adopt": [],
+      "foster": []
+    }
+  },
+  {
+    "id": "pet_b84fd0b271e9",
+    "name": "Dante",
+    "src": "https://new-s3.shelterluv.com/profile-pictures/0136bfde04f2239d5d68a762cab85603/19cb5054368a6a126d982cdab5d87c03.jpg",
+    "shelterId": "shelter_6900a91f6b4c",
+    "species": "Dog",
+    "age": "Adult",
+    "size": "Small",
+    "sex": "Male",
+    "breed": "Terrier",
+    "notes": [],
+    "sourceUrl": "https://azsmalldog.org/dog-details/?id=210628364",
+    "area": "85281",
+    "details": {
+      "story": "A charming, tail-chasing sweetheart who is housebroken, leash-trained, and knows tricks. He thrives in a calm, adult-only home with another dog.",
+      "health": null,
+      "idealHome": null,
+      "fee": 300
+    },
+    "policies": {
+      "adopt": [],
+      "foster": []
+    }
+  },
+  {
+    "id": "pet_3ef4478cd1ee",
+    "name": "Russet",
+    "src": "https://new-s3.shelterluv.com/profile-pictures/191e002ee198a3674cb3d83c74a53292/be17ec9494d19afcb5540ad2925327f9.jpg",
+    "shelterId": "shelter_6900a91f6b4c",
+    "species": "Dog",
+    "age": "Young",
+    "size": "Medium",
+    "sex": "Male",
+    "breed": "Shepherd/Mixed Breed (Medium)",
+    "notes": [],
+    "sourceUrl": "https://azsmalldog.org/dog-details/?id=211867547",
+    "area": "85281",
+    "details": {
+      "story": "A high-energy 'wild child/couch potato' mix who is crate trained, loves toys, and is shy at first, requiring an experienced handler; he may resource guard and needs a home without small animals.",
+      "health": null,
+      "idealHome": null,
+      "fee": 400
+    },
+    "policies": {
+      "adopt": [],
+      "foster": []
+    }
+  },
+  {
+    "id": "pet_107d26534363",
+    "name": "Loki",
+    "src": "https://new-s3.shelterluv.com/profile-pictures/36c4b7d7a53f77fe0df5504b1cf0ac85/bff72731b04d597523d53b6d148bedd9.jpg",
+    "shelterId": "shelter_b21baa2580d8",
+    "species": "Dog",
+    "age": "Adult",
+    "size": "Small",
+    "sex": "Male",
+    "breed": "Chihuahua, Short Coat",
+    "notes": [],
+    "sourceUrl": "https://www.lostourhome.org/adopt-a-pet/animal-info?aid=214192966",
+    "area": "85281",
+    "details": {
+      "story": "Loki is a sweet and affectionate Chihuahua who loves being close to his people. He can be nervous in new situations and experiences separation anxiety, so he needs a patient family. He has lived with dogs and cats previously and is currently in a foster home.",
+      "health": null,
+      "idealHome": null,
+      "fee": 350
+    },
+    "policies": {
+      "adopt": [],
+      "foster": []
+    }
+  },
+  {
+    "id": "pet_c27808d3d0b7",
+    "name": "Tofurkey",
+    "src": "https://new-s3.shelterluv.com/profile-pictures/18b578ad07a0f49af4d255bea1cfa221/dd3397be3d43a04b1a99d4e0cabeb3ba.png",
+    "shelterId": "shelter_b21baa2580d8",
+    "species": "Dog",
+    "age": "Baby",
+    "size": "Small",
+    "sex": "Male",
+    "breed": "Chihuahua, Short Coat/Mixed Breed (Medium)",
+    "notes": [],
+    "sourceUrl": "https://www.lostourhome.org/adopt-a-pet/animal-info?aid=213878626",
+    "area": "85281",
+    "details": {
+      "story": null,
+      "health": null,
+      "idealHome": null,
+      "fee": null
+    },
+    "policies": {
+      "adopt": [],
+      "foster": []
+    }
+  },
+  {
+    "id": "pet_0548e41ec2a9",
+    "name": "Elsa",
+    "src": "https://new-s3.shelterluv.com/profile-pictures/760e93c5aaa40fcf7ebd581189ea47dc/175ac79fd2dd854d9c9d9c7e2bdc0527.png",
+    "shelterId": "shelter_b21baa2580d8",
+    "species": "Dog",
+    "age": "Baby",
+    "size": "Medium",
+    "sex": "Female",
+    "breed": "American Blue Heeler",
+    "notes": [],
+    "sourceUrl": "https://www.lostourhome.org/adopt-a-pet/animal-info?aid=214548595",
+    "area": "85281",
+    "details": {
+      "story": "Elsa is an adorable American Blue Heeler puppy with a sweet and affectionate personality. She enjoys being close to her people, curling up in laps, and watching the world through the window. As a young puppy, she is looking for a patient and committed family to help her learn potty training, basic commands, and manners.",
+      "health": null,
+      "idealHome": null,
+      "fee": 500
+    },
+    "policies": {
+      "adopt": [],
+      "foster": []
+    }
+  },
+  {
+    "id": "pet_7cd87c0fb238",
+    "name": "Willett 21406",
+    "src": "https://new-s3.shelterluv.com/profile-pictures/15e39fb4e68f3500a3fcaea83ff95dff/20241017055359.png",
+    "shelterId": "shelter_a786da163ad0",
+    "species": "Dog",
+    "age": "Adult",
+    "size": null,
+    "sex": "Female",
+    "breed": "Hound / Pointer",
+    "notes": [],
+    "sourceUrl": "https://new.shelterluv.com/embed/animal/FKDS-A-8943",
+    "area": "85281",
+    "details": {
+      "story": "Willett is a gentle 13-year-old senior dog who was returned to the shelter after her owner passed away. She is independent, mellow, housetrained, and prefers a quiet, adult-only, single-dog home without cats. She enjoys leisurely walks and bird-watching. She is spayed, up to date on vaccinations, and microchipped.",
+      "health": null,
+      "idealHome": null,
+      "fee": 185
+    },
+    "policies": {
+      "adopt": [],
+      "foster": []
+    }
+  },
+  {
+    "id": "pet_dafdb6de574a",
+    "name": "Angus 22284",
+    "src": "https://new-s3.shelterluv.com/profile-pictures/41df3e6ce0805499382d8a1c9cef9f7b/20240923053721.png",
+    "shelterId": "shelter_a786da163ad0",
+    "species": "Dog",
+    "age": "Adult",
+    "size": "Small",
+    "sex": "Male",
+    "breed": "Terrier, Silky / Mixed Breed (Small)",
+    "notes": [],
+    "sourceUrl": "https://new.shelterluv.com/embed/animal/FKDS-A-36256",
+    "area": "85281",
+    "details": {
+      "story": "Angus is a 9-year-old, 11 lb. pup who is full of personality and loves the company of other dogs. He requires an adult-only household with no cats and a fenced-in yard. He has stable vestibular disease of unknown origin. He is neutered, up to date on vaccinations, and microchipped. A foster-to-adopt option is available.",
+      "health": null,
+      "idealHome": null,
+      "fee": 185
+    },
+    "policies": {
+      "adopt": [],
+      "foster": []
+    }
+  },
+  {
+    "id": "pet_fd2ab039df75",
+    "name": "Nova 21062",
+    "src": "https://new-s3.shelterluv.com/profile-pictures/d58b9875c3263b60400df7b2c7145ceb/96aec0d6139fa092553d79a76767ac12.jpeg",
+    "shelterId": "shelter_a786da163ad0",
+    "species": "Dog",
+    "age": "Adult",
+    "size": null,
+    "sex": "Female",
+    "breed": "Terrier, Pit Bull / Retriever, Black Labrador",
+    "notes": [],
+    "sourceUrl": "https://new.shelterluv.com/embed/animal/FKDS-A-21526",
+    "area": "85281",
+    "details": {
+      "story": "Nova's journey has been quite an adventure—all the way from the beaches of Puerto Rico to here! This 5-year-old black Lab/Staffy mix is as radiant as her name suggests. She was once adopted and deeply loved but returned to us when her owner had to move and couldn't take her along. Nova is housetrained, food-motivated, and full of zest for life. She's incredibly affectionate and thrives in an active lifestyle, especially loves going on daily jogs!",
+      "health": null,
+      "idealHome": null,
+      "fee": 185
+    },
+    "policies": {
+      "adopt": [],
+      "foster": []
+    }
+  },
+  {
+    "id": "pet_ac5763399fc7",
+    "name": "Baby Bruno 21143",
+    "src": "https://new-s3.shelterluv.com/profile-pictures/77413bc5cc382f86705ed7d12c6634b8/bad97dd576dcab0640067ac67194e33d.jpg",
+    "shelterId": "shelter_a786da163ad0",
+    "species": "Dog",
+    "age": "Adult",
+    "size": null,
+    "sex": "Male",
+    "breed": "Griffon, Brussels / Shih Tzu",
+    "notes": [],
+    "sourceUrl": "https://new.shelterluv.com/embed/animal/FKDS-A-77094",
+    "area": "85281",
+    "details": {
+      "story": "Baby Bruno is a clever, loyal, and affectionate dog who can be nervous around new people and situations. He is described as having a 'big personality' and being a bit 'spicy,' meaning he can be nippy if startled or rushed. He requires an experienced adopter who understands his boundaries, a calm, low-traffic home without children, and a fenced yard. He is housetrained, crate-trained, and gets along with other dogs, but is reactive to strangers on a leash.",
+      "health": null,
+      "idealHome": null,
+      "fee": 185
+    },
+    "policies": {
+      "adopt": [],
+      "foster": []
+    }
+  },
+  {
+    "id": "pet_98852e0c95c1",
+    "name": "Holiday 21284",
+    "src": "https://new-s3.shelterluv.com/profile-pictures/ec656601741cf876dbc1306fbf349e08/855912dd4c88fc96fd0e88b3c27e4220.jpg",
+    "shelterId": "shelter_a786da163ad0",
+    "species": "Dog",
+    "age": "Adult",
+    "size": null,
+    "sex": "Female",
+    "breed": "Hound / Shepherd",
+    "notes": [],
+    "sourceUrl": "https://new.shelterluv.com/embed/animal/FKDS-A-78029",
+    "area": "85281",
+    "details": {
+      "story": "This sweet 9-year-old Hound/Shepherd mix was rescued from the euthanasia list along with her babies. Holiday is currently in foster care, where she's earned the title of 'the most low-maintenance dog ever.' She's perfectly content to spend her days lounging around the house, soaking up belly rubs, and enjoying tasty treats. She'd do best as the only dog in the home and would prefer a calm environment without very small children.",
+      "health": null,
+      "idealHome": null,
+      "fee": 185
+    },
+    "policies": {
+      "adopt": [],
+      "foster": []
+    }
   }
 ]

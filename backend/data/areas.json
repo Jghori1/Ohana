@@ -29,19 +29,19 @@
   {
     "id": "85004",
     "zip": "85004",
-    "status": "loading",
+    "status": "ready",
     "startedAt": "2026-11-15T09:01:11.893730+00:00",
-    "finishedAt": null,
-    "pets": 0,
-    "shelters": 0
+    "finishedAt": "2026-11-15T09:08:20.325302+00:00",
+    "pets": 21,
+    "shelters": 5
   },
   {
     "id": "85281",
     "zip": "85281",
-    "status": "loading",
+    "status": "ready",
     "startedAt": "2026-11-15T09:01:33.532431+00:00",
-    "finishedAt": null,
-    "pets": 0,
-    "shelters": 0
+    "finishedAt": "2026-11-15T09:17:59.518158+00:00",
+    "pets": 15,
+    "shelters": 7
   }
 ]

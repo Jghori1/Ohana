@@ -1,0 +1,21 @@
+[
+  {
+    "name": "Test User",
+    "email": "test@example.com",
+    "phone": "4805550123",
+    "passwordHash": "8aa191f547ea2f8fb54b022dcd736535$7e3878f7cd5ee273de5c5a61825d22f949c7d5a12c7f04025c33b01fa58e58f4",
+    "age": 21,
+    "address": "1 Main St, Tempe, AZ 85281",
+    "idUploaded": false,
+    "joined": "2026-11-15",
+    "adoptions": [],
+    "fosters": [],
+    "volunteer": [],
+    "donations": [],
+    "xp": 50,
+    "badges": [
+      "New member"
+    ],
+    "id": "58e734fd-2403-4963-9408-a6a8fb49761a"
+  }
+]
