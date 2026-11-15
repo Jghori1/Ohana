@@ -8,6 +8,7 @@ import {
 } from "./data/pets.js";
 import Header from "./components/Header.jsx";
 import FooterStrip from "./components/FooterStrip.jsx";
+import HamsterLoader from "./components/HamsterLoader.jsx";
 import "./dashboard.css";
 
 const FALLBACK = "Somewhere else";
@@ -174,10 +175,12 @@ export default function Dashboard() {
       <footer className="dash-foot">
         <div className="foot-rescue">
           <h2>Found a stray? Who to call</h2>
-          <p className="loc">
+          <div className="loc">
             {manualSearch.status === "tempe" && <>Numbers for <strong>{TEMPE_WELFARE_RESOURCE.city}</strong></>}
             {manualSearch.status === "unsupported" && <>We don't have verified local welfare contacts for "{manualSearch.query}". Showing general contacts.</>}
-            {!["tempe", "unsupported"].includes(manualSearch.status) && geo.status === "asking" && "Finding your location…"}
+            {!["tempe", "unsupported"].includes(manualSearch.status) && geo.status === "asking" && (
+              <HamsterLoader size={72} label="Finding your location…" />
+            )}
             {!["tempe", "unsupported"].includes(manualSearch.status) && geo.status === "ok" && <>Numbers for <strong>{geo.region}</strong></>}
             {!["tempe", "unsupported"].includes(manualSearch.status) && geo.status === "ok" && geo.storageError && "Location found, but couldn't be saved for the assistant."}
             {!["tempe", "unsupported"].includes(manualSearch.status) && geo.status === "denied" && "We couldn't use your location. Showing general contacts."}
@@ -188,7 +191,7 @@ export default function Dashboard() {
                 {geo.status === "ok" ? "Update location" : "Use my location"}
               </button>
             )}
-          </p>
+          </div>
           <form className="welfare-search" onSubmit={searchLocation}>
             <label htmlFor="welfare-location">City or ZIP</label>
             <div className="welfare-search-controls">

@@ -1,8 +1,9 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import { SHELTERS, SHELTER_FILTERS, VOLUNTEER_ROLES, DONATION_NEEDS } from "./data/pets.js";
 import Header from "./components/Header.jsx";
 import FooterStrip from "./components/FooterStrip.jsx";
+import HamsterLoader from "./components/HamsterLoader.jsx";
 import ShelterDetail from "./components/ShelterDetail.jsx";
 import "./dashboard.css";
 import "./adopt.css";
@@ -22,6 +23,11 @@ export function ShelterListing({ title, mode }) {
   const [picked, setPicked] = useState(empty);
   const [done, setDone] = useState({}); // shelter id -> true after signing up
   const [open, setOpen] = useState(null); // shelter shown in the detail panel
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    setLoading(false);
+  }, []);
 
   const toggle = (group, value) =>
     setPicked((p) => ({
@@ -71,8 +77,12 @@ export function ShelterListing({ title, mode }) {
           <p className="count">
             {shelters.length} {shelters.length === 1 ? "shelter" : "shelters"} {mode === "volunteer" ? "looking for volunteers" : "accepting donations"}
           </p>
-          {shelters.length === 0 && <p className="none">No shelters match those filters yet.</p>}
-          {shelters.map((s) => (
+          {loading ? (
+            <HamsterLoader size={96} label="Loading…" />
+          ) : shelters.length === 0 ? (
+            <p className="none">No shelters match those filters yet.</p>
+          ) : null}
+          {!loading && shelters.map((s) => (
             <article key={s.id} className="pet shelter">
               <figure className="insta shelter-card">
                 <img src={s.avatar} alt="" />

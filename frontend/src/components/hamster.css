@@ -1,0 +1,11 @@
+/* Hamster-on-a-wheel loader (image layers) */
+.hamster-loader { display: inline-flex; flex-direction: column; align-items: center; gap: 8px; }
+.hl-stage { position: relative; width: var(--size, 120px); height: var(--size, 120px); }
+.hl-stage img { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+.hl-wheel   { animation: hl-spin 1.4s linear infinite; }
+.hl-hamster { transform-origin: 50% 70%; animation: hl-run 0.32s ease-in-out infinite alternate; }
+@keyframes hl-spin { to { transform: rotate(-360deg); } }
+@keyframes hl-run  { from { transform: translateY(0) rotate(-2deg); } to { transform: translateY(-2.5%) rotate(2.5deg); } }
+.hl-label { margin: 0; font-weight: 700; color: var(--rose, #aa767c); font-size: calc(var(--size, 120px) * 0.14); text-align: center; }
+.hamster-loader.inline { display: inline-flex; vertical-align: middle; margin-right: 8px; }
+@media (prefers-reduced-motion: reduce) { .hl-wheel, .hl-hamster { animation: none; } }

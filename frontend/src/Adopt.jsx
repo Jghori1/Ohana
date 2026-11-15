@@ -4,6 +4,7 @@ import { ADOPTABLE, FILTERS, PET_DETAILS, ADOPTION_POLICIES, FOSTER_POLICIES, SH
 const shelterOf = (pet) => SHELTERS.find((s) => s.id === pet.shelterId);
 import Header from "./components/Header.jsx";
 import FooterStrip from "./components/FooterStrip.jsx";
+import HamsterLoader from "./components/HamsterLoader.jsx";
 import "./dashboard.css";
 import "./adopt.css";
 
@@ -66,7 +67,12 @@ function PetDetail({ pet, policies, title, onClose }) {
 export function PetListing({ title, verb }) {
   const [picked, setPicked] = useState(EMPTY);
   const [open, setOpen] = useState(null); // pet shown in the detail panel
+  const [loading, setLoading] = useState(title === "Adopt");
   const policies = title === "Foster" ? FOSTER_POLICIES : ADOPTION_POLICIES;
+
+  useEffect(() => {
+    setLoading(false);
+  }, []);
 
   const toggle = (group, value) =>
     setPicked((p) => ({
@@ -109,8 +115,12 @@ export function PetListing({ title, verb }) {
         <section className="listings">
           <h1 className="page-title">{title}</h1>
           <p className="count">{pets.length} {pets.length === 1 ? "pet" : "pets"} {verb}</p>
-          {pets.length === 0 && <p className="none">No pets match those filters yet.</p>}
-          {pets.map((pet) => (
+          {loading ? (
+            <HamsterLoader size={96} label="Loading…" />
+          ) : pets.length === 0 ? (
+            <p className="none">No pets match those filters yet.</p>
+          ) : null}
+          {!loading && pets.map((pet) => (
             <article key={pet.id} className="pet">
               <figure className="insta">
                 <img src={pet.src} alt={`${pet.name}, ${pet.breed}`} loading="lazy" />

@@ -4,6 +4,7 @@ import { shelterLogin, shelterSignup } from "./shelterAuth.js";
 import { DEMO } from "./auth.js";
 import ShelterHeader from "./components/ShelterHeader.jsx";
 import FooterStrip from "./components/FooterStrip.jsx";
+import HamsterLoader from "./components/HamsterLoader.jsx";
 import "./dashboard.css";
 import "./auth.css";
 
@@ -96,7 +97,14 @@ export default function ShelterAuth() {
               </>
             )}
             {serverError && <p className="server-error">{serverError}</p>}
-            <button type="submit" className="go" disabled={busy}>{busy ? "One moment…" : mode === "signup" ? "Register shelter" : "Log in"}</button>
+            <button type="submit" className="go" disabled={busy}>
+              {busy ? (
+                <>
+                  <HamsterLoader size={22} className="inline" />
+                  One moment…
+                </>
+              ) : mode === "signup" ? "Register shelter" : "Log in"}
+            </button>
           </form>
           <p className="switch">
             {mode === "login" ? "New shelter? " : "Already registered? "}

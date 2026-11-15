@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import Header from "./components/Header.jsx";
 import FooterStrip from "./components/FooterStrip.jsx";
+import HamsterLoader from "./components/HamsterLoader.jsx";
 import "./dashboard.css";
 import "./adopt.css";
 import "./donate.css";
@@ -213,9 +214,7 @@ export default function Donate() {
           </header>
 
           {loading && (
-            <p className="donation-status" role="status">
-              Loading current shelter donation information…
-            </p>
+            <HamsterLoader size={96} label="Loading…" />
           )}
           {error && (
             <div className="donation-error" role="alert">

@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { login, signup, DEMO } from "./auth.js";
 import Header from "./components/Header.jsx";
 import FooterStrip from "./components/FooterStrip.jsx";
+import HamsterLoader from "./components/HamsterLoader.jsx";
 import "./dashboard.css";
 import "./auth.css";
 
@@ -91,7 +92,12 @@ export default function Auth({ next = "/individual" }) {
             )}
             {serverError && <p className="server-error">{serverError}</p>}
             <button type="submit" className="go" disabled={busy}>
-              {busy ? "One moment…" : mode === "signup" ? "Create account" : "Log in"}
+              {busy ? (
+                <>
+                  <HamsterLoader size={22} className="inline" />
+                  One moment…
+                </>
+              ) : mode === "signup" ? "Create account" : "Log in"}
             </button>
           </form>
           <p className="switch">
