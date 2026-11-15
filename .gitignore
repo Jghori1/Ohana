@@ -1,0 +1,9 @@
+node_modules/
+.venv/
+__pycache__/
+.env
+dist/
+backend/uploads/*
+!backend/uploads/.gitkeep
+backend/data/raw_*.json
+backend/data/sessions.json
