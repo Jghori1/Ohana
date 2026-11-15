@@ -131,7 +131,7 @@ export default function Landing() {
             Animal Shelter
           </button>
           <button
-            className="choice individual"
+            className="choice Pet Lover"
             disabled={busy !== null}
             onClick={() => choose("individual")}
           >
