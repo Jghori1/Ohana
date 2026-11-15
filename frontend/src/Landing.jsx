@@ -135,7 +135,7 @@ export default function Landing() {
             disabled={busy !== null}
             onClick={() => choose("individual")}
           >
-            Individual
+            Pet Lover
           </button>
         </div>
       </section>
