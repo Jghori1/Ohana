@@ -53,104 +53,11 @@
 
 /* ---- Footer ---- */
 .dash-foot { margin-top: auto; }
-.site-footer {
+.foot-strip {
   display: block;
   width: 100%;
-  background: var(--plum);
-  color: #fff;
-}
-.animal-parade {
-  width: 100%;
-  overflow: hidden;
-  padding: 10px 0 0;
+  height: auto;
   background: var(--paper);
-}
-.animal-parade-track {
-  display: flex;
-  width: max-content;
-  animation: animal-parade-scroll 42s linear infinite;
-}
-.animal-parade-group {
-  width: 100vw;
-  min-width: 100vw;
-  display: flex;
-  align-items: flex-end;
-  justify-content: space-evenly;
-  gap: clamp(18px, 4vw, 56px);
-  padding: 0 clamp(16px, 4vw, 48px);
-}
-.animal-parade-group img {
-  display: block;
-  width: auto;
-  height: clamp(58px, 9vw, 96px);
-  max-width: 18vw;
-  object-fit: contain;
-  object-position: bottom;
-  flex: 0 1 auto;
-}
-@keyframes animal-parade-scroll {
-  from { transform: translateX(0); }
-  to { transform: translateX(-50%); }
-}
-.site-footer-content {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 20px;
-  max-width: 1300px;
-  margin: 0 auto;
-  padding: 28px 40px 18px;
-}
-.site-footer-brand {
-  margin: 0;
-  color: var(--peach);
-  font-family: var(--script);
-  font-size: 2rem;
-}
-.site-footer nav {
-  width: 100%;
-  max-width: 960px;
-}
-.site-footer-links {
-  display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  align-items: start;
-  justify-items: center;
-  gap: 12px;
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-.site-footer-links li {
-  min-width: 0;
-  text-align: center;
-}
-.site-footer-links a,
-.site-footer-coming-soon {
-  color: #fff;
-  font-weight: 700;
-  text-underline-offset: 4px;
-}
-.site-footer-links a:hover { color: var(--peach); }
-.site-footer-coming-soon small {
-  display: block;
-  color: var(--peach);
-  font-size: .75rem;
-  font-weight: 600;
-}
-.site-footer-copyright {
-  width: 100%;
-  margin: 0;
-  padding-top: 12px;
-  border-top: 1px solid rgba(255,255,255,.25);
-  color: var(--peach);
-  font-size: .9rem;
-  text-align: center;
-}
-.site-footer a:focus-visible {
-  outline: 3px solid var(--tangerine);
-  outline-offset: 4px;
-  border-radius: 3px;
 }
 
 /* rescue contacts */
@@ -185,30 +92,9 @@
   .fact { font-size: 1.5rem; }
   .foot-rescue { padding: 28px 16px; }
 }
-@media (max-width: 640px) {
-  .site-footer-content {
-    gap: 18px;
-    padding: 22px 18px 14px;
-    text-align: center;
-  }
-  .site-footer-links {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 16px 12px;
-  }
-  .animal-parade-track { animation-duration: 52s; }
-  .animal-parade-group { gap: 16px; padding: 0 12px; }
-  .animal-parade-group img { max-width: 19vw; }
-}
-@media (max-width: 380px) {
-  .site-footer-links {
-    grid-template-columns: 1fr;
-    gap: 14px;
-  }
-}
 @media (max-width: 600px) {
   .dash-main { flex-direction: column; }
 }
 @media (prefers-reduced-motion: reduce) {
   .marquee-track { animation: none; }
-  .animal-parade-track { animation: none; }
 }
