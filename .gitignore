@@ -6,4 +6,7 @@ dist/
 backend/uploads/*
 !backend/uploads/.gitkeep
 backend/data/raw_*.json
+backend/data/users.json
+backend/data/shelter_accounts.json
+backend/data/choices.json
 backend/data/sessions.json

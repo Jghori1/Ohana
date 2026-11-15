@@ -1,10 +1,11 @@
+import os
 from pathlib import Path
 
 from dotenv import load_dotenv
-from fastapi import FastAPI, Request
+from fastapi import FastAPI, HTTPException, Request
 from fastapi.exceptions import RequestValidationError
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import JSONResponse
+from fastapi.responses import FileResponse, JSONResponse
 from fastapi.staticfiles import StaticFiles
 
 from .routers import (
@@ -22,6 +23,13 @@ from .routers import (
 
 _REPO_ROOT = Path(__file__).resolve().parents[2]
 load_dotenv(_REPO_ROOT / ".env")
+
+_BACKEND_DIR = Path(__file__).resolve().parents[1]
+_FRONTEND_DIST = Path(os.getenv("FRONTEND_DIST", "../frontend_dist"))
+if not _FRONTEND_DIST.is_absolute():
+    _FRONTEND_DIST = _BACKEND_DIR / _FRONTEND_DIST
+_FRONTEND_DIST = _FRONTEND_DIST.resolve()
+_FRONTEND_INDEX = _FRONTEND_DIST / "index.html"
 
 app = FastAPI()
 
@@ -79,3 +87,26 @@ for router in (
     chat.router,
 ):
     app.include_router(router)
+
+if _FRONTEND_DIST.is_dir() and _FRONTEND_INDEX.is_file():
+    _FRONTEND_ASSETS = _FRONTEND_DIST / "assets"
+    if _FRONTEND_ASSETS.is_dir():
+        app.mount(
+            "/assets",
+            StaticFiles(directory=_FRONTEND_ASSETS),
+            name="frontend-assets",
+        )
+
+    @app.get("/{frontend_path:path}", include_in_schema=False)
+    def serve_frontend(frontend_path: str) -> FileResponse:
+        if frontend_path.startswith("api"):
+            raise HTTPException(status_code=404, detail="Not Found")
+
+        requested_file = (_FRONTEND_DIST / frontend_path).resolve()
+        try:
+            requested_file.relative_to(_FRONTEND_DIST)
+        except ValueError:
+            raise HTTPException(status_code=404, detail="Not Found")
+        if requested_file.is_file():
+            return FileResponse(requested_file)
+        return FileResponse(_FRONTEND_INDEX)

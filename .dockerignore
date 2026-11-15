@@ -1,0 +1,11 @@
+node_modules
+.venv
+.git
+dist
+backend/uploads/*
+.env
+**/.env
+backend/data/users.json
+backend/data/shelter_accounts.json
+backend/data/choices.json
+backend/data/sessions.json

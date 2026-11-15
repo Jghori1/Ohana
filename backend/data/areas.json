@@ -1,23 +1,5 @@
 [
   {
-    "id": "lock-b",
-    "zip": "lock-b",
-    "status": "empty",
-    "startedAt": null,
-    "finishedAt": "2026-11-15T08:54:00.900986+00:00",
-    "pets": 0,
-    "shelters": 0
-  },
-  {
-    "id": "lock-a",
-    "zip": "lock-a",
-    "status": "empty",
-    "startedAt": null,
-    "finishedAt": "2026-11-15T08:54:00.901553+00:00",
-    "pets": 0,
-    "shelters": 0
-  },
-  {
     "id": "85004",
     "zip": "85004",
     "status": "ready",
